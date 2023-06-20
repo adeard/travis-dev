@@ -1,7 +1,9 @@
 import React from 'react'
-import { Space, Table, Button } from 'antd';
-import AssignDriver from './AssignDriver';
-import RejectTask from './RejectTask';
+import { Form, Space, Table } from 'antd';
+import StatusTask from '../AssignmentPage/StatusTask';
+import ModalFrag from '../Fragments/ModalFrag';
+import FormAssignDriver from '../Fragments/FormAssignDriver';
+import Index from '../Elements/Input/Index';
 
 const columns = [
     {
@@ -86,16 +88,24 @@ const data = [
     },
 ];
 
-export default function PendingTab() {
+const InformationDeliveryLayout = () => {
     return (
-        <div>
+        <>
+            <Space wrap style={{float:'left', marginBottom:'16px'}}>
+                <h2>Informasi Pengiriman</h2>
+            </Space>
             <Space wrap style={{float:'right', marginBottom:'16px'}}>
-                <AssignDriver />
-                <RejectTask />
-                <Button type="default">Status Task</Button>
+                <ModalFrag button_title="Assign Supir" modal_title="Assign Supir">
+                    <FormAssignDriver></FormAssignDriver>
+                </ModalFrag>
+                <StatusTask />
             </Space>
             <Table columns={columns} dataSource={data} />
-        </div>
-        
+            <Form>
+                <Index label="Remark Dari SIMP" name="remark_fr_simp" type="textarea" style={{width: 400, maxWidth: 400 }}></Index>
+            </Form>
+        </>
     )
 }
+
+export default InformationDeliveryLayout

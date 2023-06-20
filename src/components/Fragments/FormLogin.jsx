@@ -1,7 +1,7 @@
 import React from 'react'
-// import '../../App.css';
-import './LoginPage.css'
-import { Button, Form, Input } from 'antd';
+import { Form } from 'antd';
+import Index from '../Elements/Input/Index';
+import ButtonElement from '../Elements/Button/Button';
 
 const onFinish = (values) => {
     console.log('Success:', values);
@@ -10,10 +10,8 @@ const onFinish = (values) => {
     console.log('Failed:', errorInfo);
   };
 
-export default function LoginPage() {
-  return (
-    <div className="App">
-        <header className="App-header">
+const FormLogin = () => {
+    return (
         <Form
             name="basic"
             labelCol={{
@@ -32,46 +30,31 @@ export default function LoginPage() {
             onFinishFailed={onFinishFailed}
             autoComplete="off">
 
-            <Form.Item
-            label="Username"
-            name="username"
-            rules={[
+            <Index type="text" label="Username" name="username" rules={[
                 {
                 required: true,
                 message: 'Please input your username!',
                 },
-            ]}
-            >
-            <Input />
-            </Form.Item>
+            ]}></Index>
 
-            <Form.Item
-            label="Password"
-            name="password"
-            rules={[
+            <Index type="password" label="Password" name="password" rules={[
                 {
                 required: true,
                 message: 'Please input your password!',
                 },
-            ]}
-            >
-            <Input.Password />
-            </Form.Item>
+            ]}></Index>
 
             <Form.Item
-            wrapperCol={{
-                offset: 2,
-                span: 15,
-            }}
+                wrapperCol={{
+                    offset: 2,
+                    span: 15,
+                }}
             >
-            <Button type="primary" htmlType="submit">
-                Submit
-            </Button>
+                <ButtonElement>Submit</ButtonElement>
             </Form.Item>
 
         </Form>
-        </header>
-        
-    </div>
-  )
+    )
 }
+
+export default FormLogin

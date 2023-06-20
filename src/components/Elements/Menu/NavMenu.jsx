@@ -1,8 +1,6 @@
-import { React, useState } from 'react'
+import {React, useState} from 'react'
 import { MailOutlined, UserOutlined } from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
-
-const { Header } = Layout;
+import { Menu } from 'antd';
 
 const items = [
     {
@@ -33,26 +31,21 @@ const items = [
     },
 ]
 
-export default function Head() {
+const NavMenu = () => {
     const [current, setCurrent] = useState('mail');
     const onClick = (e) => {
         console.log('click ', e);
         setCurrent(e.key);
     };
     return (
-            <Header
-            style={{
-                alignItems: 'center',
-                backgroundColor:'white'
-            }}
-            >
-            <Menu 
-                style={{ display: 'block' }}
-                onClick={onClick} 
-                selectedKeys={[current]} 
-                mode="horizontal" 
-                items={items} 
-            />
-            </Header>
+        <Menu 
+            style={{ display: 'block' }}
+            onClick={onClick} 
+            selectedKeys={[current]} 
+            mode="horizontal" 
+            items={items} 
+        />
     )
 }
+
+export default NavMenu

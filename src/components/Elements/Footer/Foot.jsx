@@ -11,7 +11,7 @@ export default function Foot() {
             textAlign: 'center',
           }}
         >
-          Ant Design ©2023 Created by Ant UED
+          Travis ©2023 SIMP
         </Footer>
     </div>
   )
