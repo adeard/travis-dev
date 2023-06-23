@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Space, Table } from 'antd';
-import StatusTask from '../AssignmentPage/StatusTask';
+import StatusTask from '../Fragments/StatusTask';
 import ModalFrag from '../Fragments/ModalFrag';
 import FormAssignDriver from '../Fragments/FormAssignDriver';
 import Index from '../Elements/Input/Index';

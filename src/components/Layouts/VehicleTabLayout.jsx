@@ -1,7 +1,9 @@
 import React from 'react'
 
-export default function VehicleTab() {
+const VehicleTabLayout = () => {
   return (
     <div>VehicleTab</div>
   )
 }
+
+export default VehicleTabLayout

@@ -1,20 +1,21 @@
 import {React, useState} from 'react'
 import { MailOutlined, UserOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
+import { Link } from "react-router-dom";
 
 const items = [
     {
-      label: <a href='/'>Home</a>,
-      key: 'mail',
-      icon: <MailOutlined />,
+        label: <Link to='/'>Home</Link>,
+        key: 'home',
+        icon: <MailOutlined />,
     },
     {
-      label: <a href='/assignment'>Assignment</a>,
-      key: 'assignment',
-      icon: <MailOutlined />,
+        label: <Link to='/assignment'>Assignment</Link>,
+        key: 'assignment',
+        icon: <MailOutlined />,
     },
     {
-        label: <a href='/master'>Master</a>,
+        label: <Link to='/master'>Master</Link>,
         key: 'master',
         icon: <MailOutlined />,
     },
@@ -31,16 +32,20 @@ const items = [
     },
 ]
 
-const NavMenu = () => {
-    const [current, setCurrent] = useState('mail');
-    const onClick = (e) => {
-        console.log('click ', e);
-        setCurrent(e.key);
-    };
+const NavMenu = (props) => {
+    const {current} = props
+    // const [current, setCurrent] = useState(props.current);
+
+    // const onClick = (e) => {
+    //     console.log('click ', e);
+    //     setCurrent(e.key);
+    //     console.log(current);
+    // };
+
     return (
         <Menu 
             style={{ display: 'block' }}
-            onClick={onClick} 
+            // onClick={onClick} 
             selectedKeys={[current]} 
             mode="horizontal" 
             items={items} 

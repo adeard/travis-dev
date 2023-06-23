@@ -3,7 +3,7 @@ import ContentLayout from '../components/Layouts/ContentLayout'
 
 export default function HomePage() {
     return (    
-        <ContentLayout>
+        <ContentLayout current_page="home">
             Homepage
         </ContentLayout>
     )

@@ -4,7 +4,8 @@ import NavMenu from '../Elements/Menu/NavMenu';
 
 const { Header } = Layout;
 
-const HeaderFrag = () => {
+const HeaderFrag = (props) => {
+  const {current_page} = props
   return (
     <Header
         style={{
@@ -12,7 +13,7 @@ const HeaderFrag = () => {
             backgroundColor:'white'
         }}
         >
-        <NavMenu></NavMenu>
+        <NavMenu current={current_page}></NavMenu>
     </Header>
   )
 }

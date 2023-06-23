@@ -1,7 +1,9 @@
 import React from 'react'
 
-export default function DriverTab() {
+const DriverTabLayout = () => {
   return (
     <div>DriverTab</div>
   )
 }
+
+export default DriverTabLayout

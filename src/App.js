@@ -3,8 +3,8 @@ import './App.css';
 import LoginPage from './pages/LoginPage';
 import AssignmentPage from './pages/AssignmentPage';
 import InformationDeliveryPage from './pages/InformationDeliveryPage';
-import Master from './components/MasterPage/Master';
 import HomePage from './pages/HomePage';
+import MasterPage from './pages/MasterPage';
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
             <Route path='/auth/login' Component={LoginPage} />
             <Route path='/assignment' Component={AssignmentPage} />
             <Route path='/information-delivery' Component={InformationDeliveryPage} />
-            <Route path='/master' Component={Master} />
+            <Route path='/master' Component={MasterPage} />
           </Routes>
         </BrowserRouter>
     </div>
