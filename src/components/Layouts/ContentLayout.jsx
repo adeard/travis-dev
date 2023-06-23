@@ -8,7 +8,7 @@ const ContentLayout = (props) => {
     return (
         <>
             <HeaderFrag current_page={current_page}></HeaderFrag>
-            <ContentFrag>{children}</ContentFrag>
+            <ContentFrag path={current_page}>{children}</ContentFrag>
         </>
     )
 }

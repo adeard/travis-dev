@@ -5,7 +5,7 @@ import InformationDeliveryLayout from '../components/Layouts/InformationDelivery
 
 const InformationDeliveryPage = () => {
     return (
-        <ContentLayout>
+        <ContentLayout current_page="information delivery">
             <InformationDeliveryLayout></InformationDeliveryLayout>
         </ContentLayout>
     )
