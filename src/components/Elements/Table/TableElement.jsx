@@ -5,7 +5,7 @@ import api from '../../../api';
 
 
 const TableElement = (props) => {
-    const {type} = props
+    const {type , start_date = "", end_date = ""} = props
 
     let task_status=""
 
@@ -57,7 +57,7 @@ const TableElement = (props) => {
     }
 
     const fetchDataPosts = async () => {
-        await api.get('/api/v1/zts_travis?task_status=' + task_status)
+        await api.get('/api/v1/zts_travis?task_status=' + task_status + '&start_date=' + start_date + '&end_date=' + end_date)
             .then(response => {
                 setPosts(response.data.data);
             })        

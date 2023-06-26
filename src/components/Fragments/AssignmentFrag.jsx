@@ -1,6 +1,5 @@
 import React from 'react'
-import { Form, Col, Row } from 'antd';
-import InputForm from '../Elements/Input/InputForm';
+import { Form, Col, Row, DatePicker } from 'antd';
 import ButtonElement from '../Elements/Button/Button';
 
 const formItemLayout = {
@@ -24,6 +23,7 @@ const rangeConfig = {
 const onFinish = (fieldsValue) => {
     // Should format date value before submit.
     const rangeValue = fieldsValue['range-picker'];
+    console.log(fieldsValue)
     const values = {
       ...fieldsValue,
       'range-picker': [rangeValue[0].format('YYYY-MM-DD'), rangeValue[1].format('YYYY-MM-DD')],
@@ -32,6 +32,12 @@ const onFinish = (fieldsValue) => {
 };
 
 const AssignmentFrag = () => {
+
+    const { RangePicker } = DatePicker
+
+    const date = new Date();
+    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     return (
         <Form
             name="time_related_controls"
@@ -43,8 +49,10 @@ const AssignmentFrag = () => {
         >
             <Row gutter={[16, 16]}>
                 <Col span={12} key={1} pull={2}>
-                    <Form.Item name="range-picker" label="Tanggal DO" {...rangeConfig}>
-                        <InputForm type="rangepicker"></InputForm>
+                    <Form.Item name="range-picker" id="range-picker" label="Tanggal DO" htmlFor='bldat' {...rangeConfig}>
+                        {/* <InputForm type="rangepicker" name="bldat" id="bldat"></InputForm> */}
+                        
+                        <RangePicker id="bldat" name="bldat" />
                     </Form.Item>
                 </Col>
                 <Col span={12} key={2} pull={7}>
