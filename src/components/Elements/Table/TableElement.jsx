@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Table } from 'antd';
+import api from '../../../api';
 
 
 
 const TableElement = (props) => {
     const {type} = props
+
+    let task_status=""
+
+    const [posts, setPosts] = useState([]);
 
     let columns = [
         { title: 'No', dataIndex: 'no', key: 'no'},
@@ -15,13 +20,11 @@ const TableElement = (props) => {
         { title: 'DO No', dataIndex: 'do_no', key: 'do_no'},
         { title: 'ShipTo', dataIndex: 'ship_to', key: 'ship_to'},
         { title: 'Alamat Tujuan', dataIndex: 'alamat_tujuan', key: 'alamat_tujuan'},
-
-        
-        
     ];
 
     switch (type) {
         case "pending":
+            task_status = "STARTED"
             columns.push(
                 { title: 'Muatan',
                     children : [
@@ -41,6 +44,7 @@ const TableElement = (props) => {
             )
             break;
         case "done":
+            task_status = "COMPLETED"
             columns.push(
                 { title: 'Supir', dataIndex: 'driver_name', key: 'driver_name'},
                 { title: 'Plat', dataIndex: 'vehicle_no', key: 'vehicle_no'},
@@ -51,30 +55,45 @@ const TableElement = (props) => {
         default:
             break;
     }
-    
-    const data = [
-        {
-            no: '1',
-            pickup_location: 'John Brown',
-            do_date: 32,
-            send_type: 'New York No. 1 Lake Park',
-        },
-        {
-            no: '2',
-            pickup_location: 'Jim Green',
-            do_date: 42,
-            send_type: 'London No. 1 Lake Park',
-        },
-        {
-            no: '3',
-            pickup_location: 'Joe Black',
-            do_date: 32,
-            send_type: 'Sydney No. 1 Lake Park',
-        },
-    ];
+
+    const fetchDataPosts = async () => {
+        await api.get('/api/v1/zts_travis?task_status=' + task_status)
+            .then(response => {
+                setPosts(response.data.data);
+            })        
+    }
+
+    useEffect(() => {
+        fetchDataPosts();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const dataset = posts.map((obj, index) =>  {
+        let datas = {
+            "no" : index + 1,
+            "key" : index + 1,
+            "pickup_location" : obj.pick_location, 
+            "do_date" : obj.bldat,
+            "send_type" : obj.jenis_kirim,
+            "task_id" : obj.taskid,
+            "do_no" : obj.vbeln,
+            "ship_to" : obj.shipto,
+            "alamat_tujuan" : obj.alamat_tujuan,
+            "tonnase" : obj.brgew,
+            "volume" : obj.volum,
+            "req_vehicle" : obj.vehicle_type,
+            "driver_name" : obj.driver_name,
+            "vehicle_no" : obj.vehicle_no,
+            "erdat" : obj.erdat,
+            "task_status" : obj.task_status,
+            "receive_date" : obj.receive_date
+        }
+
+        return datas
+    });
 
     return (
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={dataset} />
     )
 }
 
