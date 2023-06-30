@@ -1,6 +1,9 @@
 import React from 'react'
 import { Form, Col, Row, DatePicker } from 'antd';
 import ButtonElement from '../Elements/Button/Button';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
 
 const formItemLayout = {
     labelCol: {
@@ -36,8 +39,9 @@ const AssignmentFrag = () => {
     const { RangePicker } = DatePicker
 
     const date = new Date();
-    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    const firstDay = dayjs(new Date(date.getFullYear(), date.getMonth(), 1));
+    const lastDay = dayjs(new Date(date.getFullYear(), date.getMonth() + 1, 0));
+
     return (
         <Form
             name="time_related_controls"
@@ -49,10 +53,19 @@ const AssignmentFrag = () => {
         >
             <Row gutter={[16, 16]}>
                 <Col span={12} key={1} pull={2}>
-                    <Form.Item name="range-picker" id="range-picker" label="Tanggal DO" htmlFor='bldat' {...rangeConfig}>
-                        {/* <InputForm type="rangepicker" name="bldat" id="bldat"></InputForm> */}
-                        
-                        <RangePicker id="bldat" name="bldat" />
+                    <Form.Item                    
+                    name="range-picker" 
+                    id="range-picker" 
+                    label="Tanggal DO" 
+                    htmlFor='bldat' 
+                    initialValue={[
+                        firstDay,
+                        lastDay
+                    ]}
+                    {...rangeConfig}>
+                        <RangePicker
+                        id="bldat" 
+                        name="bldat" />
                     </Form.Item>
                 </Col>
                 <Col span={12} key={2} pull={7}>
