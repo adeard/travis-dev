@@ -1,29 +1,13 @@
 import React from 'react'
-import { Space, Table } from 'antd';
 import ModalFrag from '../Fragments/ModalFrag';
 import FormAddVehicle from '../Fragments/FormAddVehicle';
+import MasterTab from '../Fragments/MasterTabFrag';
 
 const columns = [
-    {
-        title: 'No',
-        dataIndex: 'no',
-        key: 'no',
-    },
-    {
-        title: 'Nomor Plat',
-        dataIndex: 'vehicle_no',
-        key: 'vehicle_no',
-    },
-    {
-        title: 'Model',
-        dataIndex: 'vehicle_type_name',
-        key: 'vehicle_type_name',
-    },
-    {
-        title: 'Category',
-        dataIndex: 'vehicle_type_category',
-        key: 'vehicle_type_category',
-    },
+    { title: 'No', dataIndex: 'no', key: 'no', },
+    { title: 'Nomor Plat', dataIndex: 'vehicle_no', key: 'vehicle_no', },
+    { title: 'Model', dataIndex: 'vehicle_type_name', key: 'vehicle_type_name', },
+    { title: 'Category', dataIndex: 'vehicle_type_category', key: 'vehicle_type_category', },
 ];
 const data = [
     {
@@ -48,17 +32,15 @@ const data = [
 
 const VehicleTabLayout = () => {
     return (
-        <>
-            <Space wrap style={{float:'left', marginBottom:'16px'}}>
-                <h2>List Kendaraan</h2>
-            </Space>
-            <Space wrap style={{float:'right', marginBottom:'16px'}}>
-                <ModalFrag button_title="Add Kendaraan" modal_title="Add Kendaraan" button_type="primary">
+        <MasterTab>
+            <MasterTab.Header>List Kendaraan</MasterTab.Header>
+            <MasterTab.Body>
+            <ModalFrag button_title="Add Kendaraan" modal_title="Add Kendaraan" button_type="primary">
                     <FormAddVehicle></FormAddVehicle>
                 </ModalFrag>
-            </Space>
-            <Table columns={columns} dataSource={data} />
-        </>
+            </MasterTab.Body>
+            <MasterTab.Footer datacolumns={columns} data={data}></MasterTab.Footer>
+        </MasterTab>
     )
 }
 
