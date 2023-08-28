@@ -2,7 +2,7 @@ import React from 'react'
 import { Input, DatePicker } from 'antd';
 
 const InputForm = props => {
-  const {type, style = '', name = ""} = props
+  const {type="", style = '', name = ""} = props
 
   switch (type) {
     case "textarea":

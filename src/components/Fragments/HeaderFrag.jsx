@@ -1,5 +1,6 @@
 import { React, useState } from 'react'
 import { Layout, theme, Button } from 'antd';
+import { useNavigate } from 'react-router-dom'
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
@@ -9,6 +10,7 @@ import {
 const { Header } = Layout;
 
 const HeaderFrag = (props) => {
+    const navigate = useNavigate();
     const {collapseTrigger} = props
     const [collapsed, setCollapsed] = useState(false);
     const {
@@ -18,7 +20,12 @@ const HeaderFrag = (props) => {
     const sendDataToParent = () => {
         setCollapsed(!collapsed)
         collapseTrigger(collapsed);
-      };
+    };
+
+    const handleSignOut = () => {
+        localStorage.removeItem('token')
+        navigate('/auth/login')
+    }
     
     return (
         <Header
@@ -41,11 +48,12 @@ const HeaderFrag = (props) => {
             <Button
                 type="text"
                 icon={<UserOutlined />}
+                onClick={handleSignOut}
                 style={{
-                fontSize: '12px',
-                width: 100,
-                height: 64,
-                float: "right"
+                    fontSize: '12px',
+                    width: 100,
+                    height: 64,
+                    float: "right"
                 }}
             >Sign Out</Button>
         </Header>

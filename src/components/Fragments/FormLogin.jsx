@@ -1,48 +1,79 @@
 import React from 'react'
-import { Form } from 'antd';
-import Index from '../Elements/Input/Index';
+import { Form, Input } from 'antd';
+import  { useNavigate } from 'react-router-dom'
 import ButtonElement from '../Elements/Button/Button';
-
-const onFinish = (values) => {
-    console.log('Success:', values);
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+import Api from '../../api';
 
 const FormLogin = () => {
+
+    const navigate = useNavigate();
+
+    const onFinish = (values) => {
+        Api.post('api/v1/auth/sign_in', {
+            username: values.username,
+            password: values.password,
+            domain:"indofood",
+            ldap:true
+        })
+        .then(function (response) {
+            if (response.status === 200) {
+                localStorage.setItem('token', response.data.Token)
+                navigate('/')
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    };
+
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    };
+
     return (
         <Form
             name="basic"
             labelCol={{
-            span: 8,
+                span: 8,
             }}
             wrapperCol={{
-            span: 16,
+                span: 16,
             }}
             style={{
-            maxWidth: 600,
+                maxWidth: 600,
             }}
             initialValues={{
-            remember: true,
+                remember: true,
             }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off">
 
-            <Index type="text" label="Username" name="username" rules={[
+            <Form.Item
+            label="Username"
+            name="username"
+            rules={[
                 {
                 required: true,
                 message: 'Please input your username!',
                 },
-            ]}></Index>
+            ]}                
+            >
+                <Input />
+            </Form.Item>
 
-            <Index type="password" label="Password" name="password" rules={[
+            <Form.Item
+            label="Password"
+            name="password"
+            rules={[
                 {
                 required: true,
                 message: 'Please input your password!',
                 },
-            ]}></Index>
+            ]}                
+            >
+                <Input type="password" />
+            </Form.Item>
 
             <Form.Item
                 wrapperCol={{
