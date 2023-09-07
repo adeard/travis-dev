@@ -4,7 +4,7 @@ import TableElement from '../Elements/Table/TableElement';
 import ModalFrag from './ModalFrag';
 import FormAssignDriver from './FormAssignDriver';
 import FormRejectTask from './FormRejectTask';
-import Api from '../../api';
+import { getZtsTravis } from '../../api/ztstravis.service';
 
 const TabContent = (props) => {
 
@@ -69,17 +69,21 @@ const TabContent = (props) => {
             break;
     }
 
-    const fetchDataPosts = async () => {
-        await Api.get('/api/v1/zts_travis?task_status=' + task_status + '&start_date=' + start + '&end_date=' + end,
-                    { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
-            .then(response => {
-                setPosts(response.data.data);
-            })        
+    let request_params = {
+        task_status,
+        start_date : start,
+        end_date : end,
     }
 
     useEffect(() => {
-        fetchDataPosts();    
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+         // eslint-disable-next-line
+        getZtsTravis(request_params, (status, result) => {
+            if (status) {
+                setPosts(result);
+            } else {
+                console.log(result)
+            }
+        })
     }, []);
 
     const dataset = posts.map((obj, index) =>  {

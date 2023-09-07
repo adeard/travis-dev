@@ -5,6 +5,7 @@ import {
     MenuUnfoldOutlined,
     UserOutlined,
   } from '@ant-design/icons';
+import { useLogin } from '../../hooks/useLogin';
 
 const { Header } = Layout;
 
@@ -18,7 +19,14 @@ const HeaderFrag = (props) => {
     const sendDataToParent = () => {
         setCollapsed(!collapsed)
         collapseTrigger(collapsed);
-      };
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("token")
+        window.location.href = "/Travis/auth/login"
+    }
+
+    useLogin()
     
     return (
         <Header
@@ -41,11 +49,12 @@ const HeaderFrag = (props) => {
             <Button
                 type="text"
                 icon={<UserOutlined />}
+                onClick={handleLogout}
                 style={{
-                fontSize: '12px',
-                width: 100,
-                height: 64,
-                float: "right"
+                    fontSize: '12px',
+                    width: 100,
+                    height: 64,
+                    float: "right"
                 }}
             >Sign Out</Button>
         </Header>
