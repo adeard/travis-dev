@@ -12,22 +12,12 @@ const MasterPage = () => {
                 defaultActiveKey="1"
                 items={[
                     {
-                        label: (
-                        <span>
-                            <AppleOutlined />
-                            Supir
-                        </span>
-                        ),
+                        label: (<span><AppleOutlined /> Supir</span>),
                         key: 1,
                         children: <DriverTabLayout />,
                     },
                     {
-                        label: (
-                        <span>
-                            <AppleOutlined />
-                            Kendaraan
-                        </span>
-                        ),
+                        label: (<span><AppleOutlined /> Kendaraan</span>),
                         key: 2,
                         children: <VehicleTabLayout />,
                     }
