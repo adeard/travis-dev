@@ -16,14 +16,14 @@ const VehicleTabLayout = () => {
         page : 1,
     }
 
-    useEffect(() => {
-        // eslint-disable-next-line
+    useEffect(() => {         
         getVehicles(request_params, (result) => {
             setVehicles(result);
         })
-   }, []);
+        // eslint-disable-next-line
+    }, []);
 
-   const dataset = vehicles.map((obj, index) =>  {
+    const dataset = vehicles.map((obj, index) =>  {
         let datas = {
             "no" : index + 1,
             "key" : index + 1,

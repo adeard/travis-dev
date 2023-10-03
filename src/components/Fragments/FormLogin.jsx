@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, notification } from 'antd';
 import ButtonElement from '../Elements/Button/Button';
-import { login } from '../../api/auth.service';
+import { login, getLoggedUser } from '../../api/auth.service';
 import InputForm from '../Elements/Input/InputForm';
 
 const FormLogin = () => {
@@ -15,12 +15,19 @@ const FormLogin = () => {
     };
 
     const onFinish = (values) => {
-        values.ldap = true
+        values.ldap = false
         values.domain = "indofood"
         login(values, (status, token) => {
             if (status && token) {
-                localStorage.setItem('token', token)
-                window.location.href = "/Travis"
+                localStorage.setItem('token', token)                
+                getLoggedUser((status, result) => {
+                    if (status && result) {
+                        localStorage.setItem('logged_user', JSON.stringify(result))
+                        window.location.href = "/Travis"
+                    } else {
+                        openNotificationWithIcon('error', "", result)
+                    }
+                })
             } else {
                 openNotificationWithIcon('error', "", "Invalid User LDAP")
             }
