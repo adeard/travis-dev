@@ -13,10 +13,9 @@ export const getVehicleType = (callback) => {
 export const addVehicle = (data, callback) => {
     axios.post(`${Api}/api/v1/zts_travis/vehicle`, data,
     { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }).then((res) => {
-        console.log(res)
-        callback(res.data.data)
+        callback(true, res.data.data)
     }).catch((err) => {
-        console.log(err)
+        callback(false, err)
     })
 }
 

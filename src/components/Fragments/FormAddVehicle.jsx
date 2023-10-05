@@ -3,7 +3,7 @@ import { Form, Select, Modal, Button } from 'antd';
 import InputForm from '../Elements/Input/InputForm';
 import { getVehicleType, addVehicle } from '../../api/vehicle.service';
 
-const FormAddVehicle = () => {
+const FormAddVehicle = (props) => {
     const { Option } = Select;
     const [loadings, setLoadings] = useState(false);
     const [vehicletypes, setVehicleTypes] = useState([])
@@ -17,10 +17,20 @@ const FormAddVehicle = () => {
     };
 
     const onFinish = (values) => {
+        const serializedData = localStorage.getItem("logged_user");
+        let loggedUser = JSON.parse(serializedData);
+
+        values.vendor_id = loggedUser.code
+
         setLoadings(true)
-        addVehicle(values, (result) => {
+
+        addVehicle(values, (status, result) => {
             setIsModalOpen(false);
             setLoadings(false)
+
+            props.isUpdate(true)
+
+            if (!status) console.log(result.message)
         })        
     };
     
@@ -53,27 +63,6 @@ const FormAddVehicle = () => {
                     onFinishFailed={onFinishFailed}
                     autoComplete="off">
 
-                    <InputForm type="text" label="Vendor ID" name="vendor_id" rules={[
-                        {
-                        required: true,
-                        message: 'Please input first !',
-                        },
-                    ]} />
-
-                    <InputForm type="text" label="User ID" name="user_id" rules={[
-                        {
-                        required: true,
-                        message: 'Please input first !',
-                        },
-                    ]}></InputForm>
-
-                    <InputForm type="text" label="Vehicle ID" name="vehicle_id" rules={[
-                        {
-                        required: true,
-                        message: 'Please input first !',
-                        },
-                    ]}></InputForm>
-
                     <InputForm type="text" label="Vehicle No" name="vehicle_no" rules={[
                         {
                         required: true,
@@ -87,7 +76,7 @@ const FormAddVehicle = () => {
                         message: 'Please input first !',
                         },
                     ]}>
-                        <Select>
+                        <Select placeholder="Type - Name">
                             {vehicletypes.length > 0 && vehicletypes.map((vehicletype) => (
                                 <Option key={vehicletype.vehicle_type} value={vehicletype.vehicle_type}>{vehicletype.vehicle_type} - {vehicletype.vehicle_type_name}</Option>
                             ))}                    

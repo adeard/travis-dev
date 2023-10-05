@@ -5,6 +5,7 @@ import { getVehicles } from '../../api/vehicle.service';
 
 const VehicleTabLayout = () => {
     const [vehicles, setVehicles] = useState([]);
+    const [isUpdate, setIsUpdate] = useState(false);
     const columns = [
         { title: 'No', dataIndex: 'no', key: 'no', },
         { title: 'Nomor Plat', dataIndex: 'vehicle_no', key: 'vehicle_no', },
@@ -14,6 +15,13 @@ const VehicleTabLayout = () => {
 
     let request_params = {
         page : 1,
+    }
+
+    if (isUpdate) {
+        getVehicles(request_params, (result) => {
+            setVehicles(result);
+            setIsUpdate(false)
+        })
     }
 
     useEffect(() => {         
@@ -39,7 +47,7 @@ const VehicleTabLayout = () => {
         <MasterTab>
             <MasterTab.Header>List Kendaraan</MasterTab.Header>
             <MasterTab.Body>
-                <FormAddVehicle></FormAddVehicle>
+                <FormAddVehicle isUpdate={setIsUpdate}></FormAddVehicle>
             </MasterTab.Body>
             <MasterTab.Footer datacolumns={columns} data={dataset}></MasterTab.Footer>
         </MasterTab>
