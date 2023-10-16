@@ -15,6 +15,7 @@ const VehicleTabLayout = () => {
 
     let request_params = {
         page : 1,
+        vendor_id : "",
     }
 
     if (isUpdate) {

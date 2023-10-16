@@ -5,6 +5,7 @@ import { getDrivers } from '../../api/driver.service';
 
 const DriverTabLayout = () => {
     const [drivers, setDrivers] = useState([]);
+    const [isUpdate, setIsUpdate] = useState(false);
     const columns = [
         { title: 'No',dataIndex: 'no',key: 'no', },
         { title: 'ID Supir', dataIndex: 'driver_id', key: 'driver_id', },
@@ -19,6 +20,14 @@ const DriverTabLayout = () => {
     let request_params = {
         page : 1,
     }
+
+    if (isUpdate) {
+        getDrivers(request_params, (result) => {
+            setDrivers(result);
+            setIsUpdate(false)
+        })
+    }
+
 
     useEffect(() => {         
         getDrivers(request_params, (result) => {
@@ -47,7 +56,7 @@ const DriverTabLayout = () => {
         <MasterTab>
             <MasterTab.Header>List Supir</MasterTab.Header>
             <MasterTab.Body>
-                <FormAddDriver></FormAddDriver>
+                <FormAddDriver isUpdate={setIsUpdate}></FormAddDriver>
             </MasterTab.Body>
             <MasterTab.Footer datacolumns={columns} data={dataset}></MasterTab.Footer>
         </MasterTab>

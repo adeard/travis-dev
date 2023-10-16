@@ -4,7 +4,7 @@ import TableElement from '../Elements/Table/TableElement';
 import ModalFrag from './ModalFrag';
 import FormAssignDriver from './FormAssignDriver';
 import FormRejectTask from './FormRejectTask';
-import { getZtsTravis } from '../../api/ztstravis.service';
+import { getTask } from '../../api/task.service';
 
 const TabContent = (props) => {
 
@@ -77,7 +77,7 @@ const TabContent = (props) => {
 
     useEffect(() => {
          // eslint-disable-next-line
-        getZtsTravis(request_params, (status, result) => {
+         getTask(request_params, (status, result) => {
             if (status) {
                 setPosts(result);
             } else {

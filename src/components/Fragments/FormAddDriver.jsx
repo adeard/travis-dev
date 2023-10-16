@@ -1,11 +1,20 @@
-import React, {useState} from 'react'
-import { Form, Modal, Button } from 'antd';
+import React, {useState, useEffect} from 'react'
+import { Form, Modal, Button, Select } from 'antd';
 import InputForm from '../Elements/Input/InputForm';
 import { addDriver } from '../../api/driver.service';
+import { getVehicles } from '../../api/vehicle.service';
 
-const FormAddDriver = () => {    
+const FormAddDriver = (props) => {    
+    const { Option } = Select;
     const [loadings, setLoadings] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [vendorVehicles, setVendorVehicle] = useState([]);
+    const serializedData = localStorage.getItem("logged_user");
+    
+    let loggedUser = JSON.parse(serializedData);
+    let requestParams = {
+        vendor_id : loggedUser.code
+    }
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -17,30 +26,38 @@ const FormAddDriver = () => {
 
     const onFinish = (values) => {
         setLoadings(true)
-        addDriver(values, (status, result) => {
-            if (status === 200) {
-                setIsModalOpen(false);            
-            } else {
-                
-            }
+
+        values.vendor_id = requestParams.vendor_id
+
+        addDriver(values, () => {
+            setIsModalOpen(false);            
             setLoadings(false)
+
+            props.isUpdate(true)
         })   
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
 
+    useEffect(() => {
+        getVehicles(requestParams, (result) => {
+            setVendorVehicle(result)
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     return (
         <>
             <Button type="primary" onClick={showModal}>Tambah Supir</Button> 
             <Modal 
-                title="Tambah Supir" 
                 open={isModalOpen} 
                 onCancel={handleCancel} 
                 footer={null}
                 >
+                <h3>User Access</h3>
                 <Form
-                    name="basic"
+                    name="add_driver"
                     labelCol={{ span: 8 }}
                     wrapperCol={{ span: 16 }}
                     style={{ maxWidth: 600 }}
@@ -49,33 +66,18 @@ const FormAddDriver = () => {
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
                 >
-                    <InputForm type="text" label="User ID" name="user_id" rules={[
+                    <Form.Item label="Vehicle ID" name="vehicle_id" rules={[
                         {
                         required: true,
                         message: 'Please input first !',
                         },
-                    ]} />
-
-                    <InputForm type="text" label="Vendor ID" name="vendor_id" rules={[
-                        {
-                        required: true,
-                        message: 'Please input first !',
-                        },
-                    ]} />
-
-                    <InputForm type="text" label="Driver ID" name="driver_id" rules={[
-                        {
-                        required: true,
-                        message: 'Please input first !',
-                        },
-                    ]} />
-
-                    <InputForm type="text" label="Vehicle ID" name="vehicle_id" rules={[
-                        {
-                        required: true,
-                        message: 'Please input first !',
-                        },
-                    ]} />
+                    ]}>
+                        <Select placeholder="Plate No - Type">
+                            {vendorVehicles.length > 0 && vendorVehicles.map((vehicle) => (
+                                <Option key={vehicle.vehicle_id} value={vehicle.vehicle_id}>{vehicle.vehicle_no} - {vehicle.vehicle_type_name}</Option>
+                            ))}                    
+                        </Select>
+                    </Form.Item>
 
                     <InputForm type="text" label="Username" name="username" rules={[
                         {
@@ -90,7 +92,8 @@ const FormAddDriver = () => {
                         message: 'Please input first !',
                         },
                     ]} />
-
+                    <hr />
+                    <h3>User Biodata</h3>
                     <InputForm type="text" label="Driver Name" name="driver_name" rules={[
                         {
                         required: true,

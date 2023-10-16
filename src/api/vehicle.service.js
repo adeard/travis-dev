@@ -11,7 +11,7 @@ export const getVehicleType = (callback) => {
 }
 
 export const addVehicle = (data, callback) => {
-    axios.post(`${Api}/api/v1/zts_travis/vehicle`, data,
+    axios.post(`${Api}/api/v1/vehicle`, data,
     { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }).then((res) => {
         callback(true, res.data.data)
     }).catch((err) => {
@@ -20,9 +20,9 @@ export const addVehicle = (data, callback) => {
 }
 
 export const getVehicles = (data, callback) => {
-    axios.get(`${Api}/api/v1/zts_travis/vehicle`,
+    axios.get(`${Api}/api/v1/vehicle?vendor_id=${data.vendor_id}`,
     { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }).then((res) => {
-        callback(res.data.data)
+        callback(res.data.data.data)
     }).catch((err) => {
         console.log(err)
     })
