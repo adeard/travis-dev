@@ -4,7 +4,9 @@ import { Table } from 'antd';
 const TableElement = (props) => {
     const {columns, dataSource} = props
     return (
-        <Table columns={columns} dataSource={dataSource} />
+        <Table size="small" columns={columns} dataSource={dataSource} scroll={{
+            x: 1300,
+          }} />
     )
 }
 

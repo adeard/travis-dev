@@ -1,43 +1,38 @@
 import React, { useState, useEffect } from 'react'
-import { Space, Button } from 'antd';
+import { Space } from 'antd';
 import TableElement from '../Elements/Table/TableElement';
-import ModalFrag from './ModalFrag';
 import FormAssignDriver from './FormAssignDriver';
 import FormRejectTask from './FormRejectTask';
 import { getTask } from '../../api/task.service';
 
 const TabContent = (props) => {
-
+    console.log(props.is_open)
     const [posts, setPosts] = useState([]);
     const {tab_type, start = "", end = ""} = props
     
     let opt_button =""
     let task_status=""
     let columns = [
-        { title: 'No', dataIndex: 'no', key: 'no'},
-        { title: 'Lokasi Pickup', dataIndex: 'pickup_location', key: 'pickup_location'},
+        { title: 'No', dataIndex: 'no', key: 'no', fixed: 'left', width: 40},
+        { title: 'Lokasi Pickup', dataIndex: 'pickup_location', key: 'pickup_location', fixed: 'left'},
+        { title: 'Task ID', dataIndex: 'task_id', key: 'task_id', fixed: 'left'},
         { title: 'Tanggal DO', dataIndex: 'do_date', key: 'do_date'},
-        { title: 'Jenis Kirim', dataIndex: 'send_type', key: 'send_type'},
-        { title: 'Task ID', dataIndex: 'task_id', key: 'task_id'},
+        { title: 'Jenis Kirim', dataIndex: 'send_type', key: 'send_type'},        
         { title: 'DO No', dataIndex: 'do_no', key: 'do_no'},
         { title: 'ShipTo', dataIndex: 'ship_to', key: 'ship_to'},
         { title: 'Alamat Tujuan', dataIndex: 'alamat_tujuan', key: 'alamat_tujuan'},
     ];
 
     if (tab_type === "pending") {
-        opt_button = <>
-            <ModalFrag button_type="primary" button_title="Assign Supir" modal_title="Assign Supir">
-                <FormAssignDriver></FormAssignDriver>
-            </ModalFrag>
-            <ModalFrag button_type="default" button_title="Reject Task" modal_title="Reject Task">
-                <FormRejectTask></FormRejectTask>
-            </ModalFrag>
-        </>
+        opt_button = <Space wrap>
+            <FormAssignDriver></FormAssignDriver>
+            <FormRejectTask></FormRejectTask>
+        </Space>
     }
 
     switch (tab_type) {
         case "pending":
-            task_status = "STARTED"
+            task_status = "PENDING"
             columns.push(
                 { title: 'Muatan',
                     children : [
@@ -46,22 +41,26 @@ const TabContent = (props) => {
                     ]
                 },
                 { title: 'Req Kendaraan', dataIndex: 'req_vehicle', key: 'req_vehicle'},
+                { title: 'Action', dataIndex: 'action', key: 'action', fixed: 'right', width:170},
             )
             break;
         case "process":
+            task_status = "PROCESS"
             columns.push(
                 { title: 'Supir', dataIndex: 'driver_name', key: 'driver_name'},
                 { title: 'Plat', dataIndex: 'vehicle_no', key: 'vehicle_no'},
                 { title: 'Tgl Notif ke Supir', dataIndex: 'erdat', key: 'erdat'},
                 { title: 'Status Task', dataIndex: 'task_status', key: 'task_status'},
+                { title: 'Action', dataIndex: 'action', key: 'action', fixed: 'right', width:170},
             )
             break;
         case "done":
-            task_status = "COMPLETED"
+            task_status = "COMPLETE"
             columns.push(
                 { title: 'Supir', dataIndex: 'driver_name', key: 'driver_name'},
                 { title: 'Plat', dataIndex: 'vehicle_no', key: 'vehicle_no'},
                 { title: 'Tgl Selesai', dataIndex: 'receive_date', key: 'receive_date'},
+                { title: 'Action', dataIndex: 'action', key: 'action', fixed: 'right', width:170},
             )
             break;
     
@@ -104,18 +103,19 @@ const TabContent = (props) => {
             "vehicle_no" : obj.vehicle_no,
             "erdat" : obj.erdat,
             "task_status" : obj.task_status,
-            "receive_date" : obj.receive_date
+            "receive_date" : obj.receive_date,
         }
+
+        datas.action = <Space wrap>
+            <FormAssignDriver></FormAssignDriver>
+            {obj.task_status === "ASSIGNED" && <FormRejectTask></FormRejectTask>}
+        </Space>
 
         return datas
     });
 
     return (
         <div>
-            <Space wrap style={{float:'right', marginBottom:'16px'}}>
-                {opt_button}
-                <Button type="default">Status Task</Button>
-            </Space>
             <TableElement columns={columns} dataSource={dataset}></TableElement>
         </div>
     )
