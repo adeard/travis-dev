@@ -9,3 +9,12 @@ export const getTask = (data, callback) => {
         callback(false, err)
     })
 }
+
+export const updateTask = (data, callback) => {
+    axios.post(`${Api}/api/v1/task/${data.task_id}`, data,
+    { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }).then((res) => {
+        callback(true, res.data)
+    }).catch((err) => {
+        callback(false, err)
+    })
+}

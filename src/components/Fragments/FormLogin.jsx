@@ -42,7 +42,7 @@ const FormLogin = () => {
         <>
         {contextHolder}
         <Form
-            name="basic"
+            name="login_form"
             labelCol={{span: 8}}
             wrapperCol={{span: 16}}
             style={{maxWidth: 600}}

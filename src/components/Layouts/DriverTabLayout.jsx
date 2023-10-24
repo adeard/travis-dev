@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react'
 import FormAddDriver from '../Fragments/FormAddDriver';
 import MasterTab from '../Fragments/MasterTabFrag';
 import { getDrivers } from '../../api/driver.service';
+import FormUpdateDriver from '../Fragments/FormUpdateDriver';
 
 const DriverTabLayout = () => {
     const [drivers, setDrivers] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
+    const serializedData = localStorage.getItem("logged_user");
     const columns = [
         { title: 'No',dataIndex: 'no',key: 'no', },
         { title: 'ID Supir', dataIndex: 'driver_id', key: 'driver_id', },
@@ -15,10 +17,14 @@ const DriverTabLayout = () => {
         { title: 'No HP', dataIndex: 'no_hp', key: 'no_hp', },
         { title: 'ID Kendaraan', dataIndex: 'vehicle_id', key: 'vehicle_id', },
         { title: 'Status Supir', dataIndex: 'driver_status', key: 'driver_status', },
+        { title: 'Action', dataIndex: 'action', key: 'action', },
     ];
+
+    let loggedUser = JSON.parse(serializedData);
 
     let request_params = {
         page : 1,
+        vendor_id : loggedUser.code,
     }
 
     if (isUpdate) {
@@ -47,6 +53,7 @@ const DriverTabLayout = () => {
             "no_hp" : obj.no_hp,
             "vehicle_id" : obj.vehicle_id,
             "driver_status" : obj.driver_status,
+            "action": <FormUpdateDriver />
         }
 
         return datas

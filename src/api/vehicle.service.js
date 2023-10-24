@@ -27,3 +27,12 @@ export const getVehicles = (data, callback) => {
         console.log(err)
     })
 }
+
+export const getVehicle = (vehicleId, callback) => {
+    axios.get(`${Api}/api/v1/vehicle/${vehicleId}`,
+    { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }).then((res) => {
+        callback(res.data.data)
+    }).catch((err) => {
+        console.log(err)
+    })
+}

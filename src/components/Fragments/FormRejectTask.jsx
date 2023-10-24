@@ -1,20 +1,18 @@
 import React,{useState} from 'react'
 import { Form, Input, Radio, Space, Button, Modal } from 'antd';
 
-const onFinish = (values) => {
-    console.log('Success:', values);
-};
-const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-};
 
 const FormRejectTask = (props) => {
     const {task_id} = props
-    const [value, setValue] = useState(1);
+    const [value, setValue] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    let reason = {
+        "task_id" : task_id,
+        "notes_fr_sales" : ""
+    }
+
     const onChange = (e) => {
-        console.log('radio checked', e.target.value);
         setValue(e.target.value);
     };
 
@@ -24,6 +22,22 @@ const FormRejectTask = (props) => {
 
     const handleCancel = () => {
         setIsModalOpen(false);
+    };
+
+    const handleReasonChange = (e) => {
+        reason.notes_fr_sales = e.target.value
+    }
+
+    const onFinish = (values) => {
+        if (values.reject_reason !== "Lain - lain") {
+            reason.notes_fr_sales = values.reject_reason   
+        }
+        setIsModalOpen(false);
+        console.log(reason)
+        console.log('Success:', values);
+    };
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
     };
 
     return (
@@ -37,7 +51,6 @@ const FormRejectTask = (props) => {
                     >
                 <p><b> Task Id : </b>{task_id}</p>
                 <Form
-                    name="reject_form"
                     labelCol={{ span: 8 }}
                     wrapperCol={{ span: 16 }}
                     style={{ maxWidth: 600 }}
@@ -47,18 +60,18 @@ const FormRejectTask = (props) => {
                     autoComplete="off"
                 >
                     <Form.Item label="Alasan Reject" name="reject_reason">
-                        <Radio.Group onChange={onChange} value={value}>
+                        <Radio.Group onChange={onChange}>
                             <Space direction="vertical" >
-                                <Radio value={1}>Tidak ada armada kendaraan</Radio>
-                                <Radio value={2}>Tidak ada akses ke lokasi pengiriman</Radio>
-                                <Radio value={3}>
+                                <Radio value={"Tidak ada armada kendaraan"}>Tidak ada armada kendaraan</Radio>
+                                <Radio value={"Tidak ada akses ke lokasi pengiriman"}>Tidak ada akses ke lokasi pengiriman</Radio>
+                                <Radio value={"Lain - lain"}>
                                 Lain - lain
-                                {value === 3 ? (
+                                {value === "Lain - lain" ? (
                                     <Input.TextArea
                                     style={{
                                         width: 300,
                                         marginLeft: 10,
-                                    }}
+                                    }} name='reason_desc' onChange={handleReasonChange}
                                     />
                                 ) : null}
                                 </Radio>
