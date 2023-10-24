@@ -1,5 +1,6 @@
 import React,{useState} from 'react'
 import { Form, Input, Radio, Space, Button, Modal } from 'antd';
+import { updateTask } from '../../api/task.service';
 
 
 const FormRejectTask = (props) => {
@@ -9,7 +10,8 @@ const FormRejectTask = (props) => {
 
     let reason = {
         "task_id" : task_id,
-        "notes_fr_sales" : ""
+        "notes_fr_sales" : "",
+        "task_status" : "UNASSIGNED"
     }
 
     const onChange = (e) => {
@@ -32,9 +34,10 @@ const FormRejectTask = (props) => {
         if (values.reject_reason !== "Lain - lain") {
             reason.notes_fr_sales = values.reject_reason   
         }
-        setIsModalOpen(false);
-        console.log(reason)
-        console.log('Success:', values);
+        
+        updateTask(reason, () => {
+            setIsModalOpen(false);
+        })
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -51,6 +54,7 @@ const FormRejectTask = (props) => {
                     >
                 <p><b> Task Id : </b>{task_id}</p>
                 <Form
+                    name='reject_reason_form'
                     labelCol={{ span: 8 }}
                     wrapperCol={{ span: 16 }}
                     style={{ maxWidth: 600 }}
@@ -59,7 +63,7 @@ const FormRejectTask = (props) => {
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
                 >
-                    <Form.Item label="Alasan Reject" name="reject_reason">
+                    <Form.Item id="reject_reason" name="reject_reason" label="Alasan Reject">
                         <Radio.Group onChange={onChange}>
                             <Space direction="vertical" >
                                 <Radio value={"Tidak ada armada kendaraan"}>Tidak ada armada kendaraan</Radio>
