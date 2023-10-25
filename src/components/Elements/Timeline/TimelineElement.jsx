@@ -1,28 +1,28 @@
-import React,{ useState } from 'react'
+import React from 'react'
 import { Timeline  } from 'antd';
 
-const TimelineElement = () => {
-    const [mode] = useState('right');
+const TimelineElement = (props) => {
+    const {tasklogs} = props
+
+    const historyList = tasklogs.data.map((obj, index) =>  {
+
+        let date = obj.udate.split("T")
+        let time = obj.utime.split("T")
+
+        let datas = {
+            "no" : index + 1,
+            "key" : index + 1,
+            "label" : date[0]+" "+time[1].slice(0, -1), 
+            "children" : obj.new_value
+        }
+
+        return datas
+    });
+
     return (
         <Timeline
-            mode={mode}
-            items={[
-            {
-                label: '2015-09-01',
-                children: 'Create a services',
-            },
-            {
-                label: '2015-09-01 09:12:11',
-                children: 'Solve initial network problems',
-            },
-            {
-                children: 'Technical testing',
-            },
-            {
-                label: '2015-09-01 09:12:11',
-                children: 'Network problems being solved',
-            },
-            ]}
+            mode="left"
+            items={historyList}
         />
     )
 }

@@ -25,7 +25,7 @@ const router = createBrowserRouter([
         element:<Assignment></Assignment>
     },
     {
-        path:"travis/information-delivery",
+        path:"travis/information-delivery/:id",
         element:<InformationDeliveryPage></InformationDeliveryPage>
     },
     {

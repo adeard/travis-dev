@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Space, Table } from 'antd';
+import { Link } from "react-router-dom";
 import FormAssignDriver from './FormAssignDriver';
 import FormRejectTask from './FormRejectTask';
 import { getTask } from '../../api/task.service';
@@ -83,7 +84,7 @@ const TabContent = (props) => {
             "pickup_location" : obj.pick_location, 
             "do_date" : obj.bldat,
             "send_type" : obj.jenis_kirim,
-            "task_id" : obj.taskid,
+            "task_id" : <Link to={`/Travis/information-delivery/${obj.taskid}`}>{obj.taskid}</Link>,
             "do_no" : obj.vbeln,
             "ship_to" : obj.shipto,
             "alamat_tujuan" : obj.alamat_tujuan,
