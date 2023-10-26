@@ -49,7 +49,9 @@ const FormLogin = () => {
             initialValues={{remember: true}}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
-            autoComplete="off">
+            autoComplete="off"
+            className='login_form'
+            >
 
             <InputForm name="username" label="Username" rules={[{
                 required: true,
