@@ -7,7 +7,7 @@ const InformationDeliveryLayout = (props) => {
     return (
         <>
             <Space wrap style={{float:'left', marginBottom:'16px'}}>
-                <h2>Informasi Pengiriman {task_id}</h2>
+                <h2>{task_id}</h2>
             </Space>
             <Space wrap style={{float:'right', marginBottom:'16px'}}>
                 <StatusTask task_id={task_id} tasklogs={tasklogs} />

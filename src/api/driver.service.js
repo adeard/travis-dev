@@ -27,3 +27,12 @@ export const getDriverDetail = (driverId, callback) => {
         console.log(err)
     })
 }
+
+export const updateDriver = (data, callback) => {
+    axios.post(`${Api}/api/v1/driver/${data.driver_id}`, data,
+    { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }).then((res) => {
+        callback(true, res.data)
+    }).catch((err) => {
+        callback(false, err)
+    })
+}

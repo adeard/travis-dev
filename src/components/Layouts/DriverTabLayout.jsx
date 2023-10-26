@@ -3,21 +3,22 @@ import FormAddDriver from '../Fragments/FormAddDriver';
 import MasterTab from '../Fragments/MasterTabFrag';
 import { getDrivers } from '../../api/driver.service';
 import FormUpdateDriver from '../Fragments/FormUpdateDriver';
+import UpdateDriverStatus from '../Elements/Button/UpdateDriverStatus';
 
 const DriverTabLayout = () => {
     const [drivers, setDrivers] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
     const serializedData = localStorage.getItem("logged_user");
     const columns = [
-        { title: 'No',dataIndex: 'no',key: 'no', },
-        { title: 'ID Supir', dataIndex: 'driver_id', key: 'driver_id', },
-        { title: 'Nama Supir', dataIndex: 'driver_name', key: 'driver_name', },
-        { title: 'Username', dataIndex: 'username', key: 'username', },
-        { title: 'KTP', dataIndex: 'ktp', key: 'ktp', },
-        { title: 'No HP', dataIndex: 'no_hp', key: 'no_hp', },
-        { title: 'ID Kendaraan', dataIndex: 'vehicle_id', key: 'vehicle_id', },
-        { title: 'Status Supir', dataIndex: 'driver_status', key: 'driver_status', },
-        { title: 'Action', dataIndex: 'action', key: 'action', },
+        { title: 'No', align:'center', dataIndex: 'no',key: 'no', },
+        { title: 'ID Supir', align:'center', dataIndex: 'driver_id', key: 'driver_id', },
+        { title: 'Nama Supir', align:'center', dataIndex: 'driver_name', key: 'driver_name', },
+        { title: 'Username', align:'center', dataIndex: 'username', key: 'username', },
+        { title: 'KTP', align:'center', dataIndex: 'ktp', key: 'ktp', },
+        { title: 'No HP', align:'center', dataIndex: 'no_hp', key: 'no_hp', },
+        { title: 'ID Kendaraan', align:'center', dataIndex: 'vehicle_id', key: 'vehicle_id', },
+        { title: 'Status Supir', align:'center', dataIndex: 'driver_status', key: 'driver_status', },
+        { title: 'Action', align:'center', dataIndex: 'action', key: 'action', },
     ];
 
     let loggedUser = JSON.parse(serializedData);
@@ -33,7 +34,6 @@ const DriverTabLayout = () => {
             setIsUpdate(false)
         })
     }
-
 
     useEffect(() => {         
         getDrivers(request_params, (result) => {
@@ -52,8 +52,22 @@ const DriverTabLayout = () => {
             "ktp" : obj.ktp,
             "no_hp" : obj.no_hp,
             "vehicle_id" : obj.vehicle_id,
-            "driver_status" : obj.driver_status,
-            "action": <FormUpdateDriver />
+            "driver_status" : <>
+                                {obj.driver_status} &nbsp; 
+                                <UpdateDriverStatus 
+                                driver_id={obj.driver_id} 
+                                status={obj.driver_status} 
+                                isUpdate={setIsUpdate} />                            
+                            </>,
+            "action": <><FormUpdateDriver 
+                        driver_id={obj.driver_id} 
+                        vehicle_id={obj.vehicle_id} 
+                        username={obj.username} 
+                        driver_name={obj.driver_name}
+                        ktp={obj.ktp}
+                        no_hp={obj.no_hp}
+                        isUpdate={setIsUpdate}
+                    /> </>
         }
 
         return datas

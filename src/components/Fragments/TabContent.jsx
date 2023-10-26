@@ -32,7 +32,7 @@ const TabContent = (props) => {
                     ]
                 },
                 { title: 'Status Task', align:'center', dataIndex: 'task_status', key: 'task_status'},
-                { title: 'Req Kendaraan', align:'center', dataIndex: 'req_vehicle', key: 'req_vehicle'},
+                { title: 'Req Kendaraan', align:'center', dataIndex: 'req_vehicle', key: 'req_vehicle', width:180},
                 { title: 'Action', align:'center', dataIndex: 'action', key: 'action', fixed: 'right', width:170},
             )
             break;
@@ -43,7 +43,6 @@ const TabContent = (props) => {
                 { title: 'Plat', align:'center', dataIndex: 'vehicle_no', key: 'vehicle_no'},
                 { title: 'Tgl Notif ke Supir', align:'center', dataIndex: 'erdat', key: 'erdat'},
                 { title: 'Status Task', align:'center', dataIndex: 'task_status', key: 'task_status'},
-                { title: 'Action', align:'center', dataIndex: 'action', key: 'action', fixed: 'right', width:170},
             )
             break;
         case "done":
@@ -52,7 +51,6 @@ const TabContent = (props) => {
                 { title: 'Supir', align:'center', dataIndex: 'driver_name', key: 'driver_name'},
                 { title: 'Plat', align:'center', dataIndex: 'vehicle_no', key: 'vehicle_no'},
                 { title: 'Tgl Selesai', align:'center', dataIndex: 'receive_date', key: 'receive_date'},
-                { title: 'Action', align:'center', dataIndex: 'action', key: 'action', fixed: 'right', width:170},
             )
             break;
     
@@ -78,11 +76,16 @@ const TabContent = (props) => {
     }, []);
 
     const dataset = posts.map((obj, index) =>  {
+        
+        let bldat = obj.bldat.split("T")
+        let erdat = obj.erdat.split("T")
+        let receive_date = obj.bldat.split("T")
+
         let datas = {
             "no" : index + 1,
             "key" : index + 1,
             "pickup_location" : obj.pick_location, 
-            "do_date" : obj.bldat,
+            "do_date" : bldat[0],
             "send_type" : obj.jenis_kirim,
             "task_id" : <Link to={`/Travis/information-delivery/${obj.taskid}`}>{obj.taskid}</Link>,
             "do_no" : obj.vbeln,
@@ -93,15 +96,18 @@ const TabContent = (props) => {
             "req_vehicle" : obj.vehicle_type,
             "driver_name" : obj.driver_name,
             "vehicle_no" : obj.vehicle_no,
-            "erdat" : obj.erdat,
+            "erdat" : erdat[0],
             "task_status" : obj.task_status,
-            "receive_date" : obj.receive_date,
+            "receive_date" : receive_date[0],
         }
 
         if (tab_type === "pending") {
             datas.action = <Space wrap>
-                {obj.task_status === "ASSIGNED" && <FormAssignDriver task_id={obj.taskid}></FormAssignDriver>}
-                {obj.task_status === "ASSIGNED" && <FormRejectTask task_id={obj.taskid}></FormRejectTask>}
+                {obj.task_status === "ASSIGNED" ? 
+                    <>  
+                        <FormAssignDriver task_id={obj.taskid}></FormAssignDriver>
+                        <FormRejectTask task_id={obj.taskid}></FormRejectTask> 
+                    </> : null}
             </Space>
         }
 
@@ -109,9 +115,7 @@ const TabContent = (props) => {
     });
 
     return (
-        <Table size="small" columns={columns} dataSource={dataset} scroll={{
-            x: 1300,
-        }} />
+        <Table size="small" columns={columns} dataSource={dataset} scroll={{x: 1800}} />
     )
 }
 

@@ -79,7 +79,8 @@ const FormAssignDriver = (props) => {
             "vehicle_no" : vehicle.vehicle_no,
             "driver_name" : driver.driver_name,
             "vehicle_type" : vehicle.vehicle_type_desc,
-            "notes_fr_transp" : values.remark_to_driver
+            "notes_fr_transp" : values.remark_to_driver,
+            "task_status" : "NOTIFY DRIVER",
         }
         
         updateTask(updateTaskData, () => {

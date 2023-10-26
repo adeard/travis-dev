@@ -31,7 +31,7 @@ const Body = (props) => {
 const Footer = (props) => {
     const {datacolumns, data} = props
     return (
-        <Table columns={datacolumns} dataSource={data} />
+        <Table columns={datacolumns} dataSource={data} size='small' />
     )
 }
 
