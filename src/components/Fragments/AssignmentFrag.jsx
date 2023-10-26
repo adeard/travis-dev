@@ -24,12 +24,7 @@ const rangeConfig = {
 };
 
 const AssignmentFrag = ({dateRangeValue}) => {
-
     const { RangePicker } = DatePicker
-
-    // const date = new Date();
-    // const firstDay = dayjs(new Date(date.getFullYear(), date.getMonth(), 1));
-    // const lastDay = dayjs(new Date(date.getFullYear(), date.getMonth() + 1, 0));
 
     const onFinish = (fieldsValue) => {
         // Should format date value before submit.
@@ -64,10 +59,6 @@ const AssignmentFrag = ({dateRangeValue}) => {
                     id="range-picker" 
                     label="Tanggal DO" 
                     htmlFor='bldat' 
-                    // initialValue={[
-                    //     firstDay,
-                    //     lastDay
-                    // ]}
                     {...rangeConfig}>
                         <RangePicker id="bldat" name="bldat" />
                     </Form.Item>

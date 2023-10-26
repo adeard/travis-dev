@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tabs } from 'antd';
-import { AppleOutlined } from '@ant-design/icons';
+import { UserOutlined, CarOutlined } from '@ant-design/icons';
 import ContentLayout from '../components/Layouts/ContentLayout'
 import DriverTabLayout from '../components/Layouts/DriverTabLayout';
 import VehicleTabLayout from '../components/Layouts/VehicleTabLayout';
@@ -12,12 +12,12 @@ const MasterPage = () => {
                 defaultActiveKey="1"
                 items={[
                     {
-                        label: (<span><AppleOutlined /> Supir</span>),
+                        label: (<span><UserOutlined /> Supir</span>),
                         key: 1,
                         children: <DriverTabLayout />,
                     },
                     {
-                        label: (<span><AppleOutlined /> Kendaraan</span>),
+                        label: (<span><CarOutlined /> Kendaraan</span>),
                         key: 2,
                         children: <VehicleTabLayout />,
                     }

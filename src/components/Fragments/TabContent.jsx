@@ -12,8 +12,9 @@ const TabContent = (props) => {
     let task_status=""
     let columns = [
         { title: 'No', align:'center', dataIndex: 'no', key: 'no', fixed: 'left', width: 40},
-        { title: 'Lokasi Pickup', align:'center', dataIndex: 'pickup_location', key: 'pickup_location', fixed: 'left'},
+        { title: 'Status Task', align:'center', dataIndex: 'task_status', key: 'task_status', fixed: 'left'},
         { title: 'Task ID', align:'center', dataIndex: 'task_id', key: 'task_id', fixed: 'left'},
+        { title: 'Lokasi Pickup', align:'center', dataIndex: 'pickup_location', key: 'pickup_location'},        
         { title: 'Tanggal DO', align:'center', dataIndex: 'do_date', key: 'do_date'},
         { title: 'Jenis Kirim', align:'center', dataIndex: 'send_type', key: 'send_type'},        
         { title: 'DO No', align:'center', dataIndex: 'do_no', key: 'do_no'},
@@ -31,7 +32,6 @@ const TabContent = (props) => {
                         { title: 'Volume', align:'center', dataIndex: 'volume', key: 'volume'},
                     ]
                 },
-                { title: 'Status Task', align:'center', dataIndex: 'task_status', key: 'task_status'},
                 { title: 'Req Kendaraan', align:'center', dataIndex: 'req_vehicle', key: 'req_vehicle', width:180},
                 { title: 'Action', align:'center', dataIndex: 'action', key: 'action', fixed: 'right', width:170},
             )
@@ -42,7 +42,6 @@ const TabContent = (props) => {
                 { title: 'Supir', align:'center', dataIndex: 'driver_name', key: 'driver_name'},
                 { title: 'Plat', align:'center', dataIndex: 'vehicle_no', key: 'vehicle_no'},
                 { title: 'Tgl Notif ke Supir', align:'center', dataIndex: 'erdat', key: 'erdat'},
-                { title: 'Status Task', align:'center', dataIndex: 'task_status', key: 'task_status'},
             )
             break;
         case "done":

@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import { Col, Row } from 'antd';
 import AssignmentFrag from '../Fragments/AssignmentFrag';
-import TabMenu from '../Fragments/TabMenu';
+import TabMenu from '../Elements/Menu/TabMenu';
 
 const AssignmentLayout = () => {
     const [dateRangeValue, setDateRangeValue] = useState({}); 
