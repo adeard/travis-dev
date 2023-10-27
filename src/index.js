@@ -12,24 +12,24 @@ import Error404 from './pages/Error404';
 
 const router = createBrowserRouter([
     {
-        path:"travis/",
+        path:"Travis/",
         element:<HomePage></HomePage>,
         errorElement:<Error404></Error404>
     },
     {
-        path:"travis/auth/login",
+        path:"Travis/auth/login",
         element:<LoginPage></LoginPage>
     },
     {
-        path:"travis/assignment",
+        path:"Travis/assignment",
         element:<Assignment></Assignment>
     },
     {
-        path:"travis/information-delivery/:id",
+        path:"Travis/information-delivery/:id",
         element:<InformationDeliveryPage></InformationDeliveryPage>
     },
     {
-        path:"travis/master",
+        path:"Travis/master",
         element:<MasterPage></MasterPage>
     },
 ])
