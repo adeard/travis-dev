@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Space, Table } from 'antd';
 import { Link } from "react-router-dom";
 import FormAssignDriver from './FormAssignDriver';
 import FormRejectTask from './FormRejectTask';
-import { getTask } from '../../api/task.service';
 
 const TabContent = (props) => {
-    const [posts, setPosts] = useState([]);
-    const {tab_type, start = "", end = ""} = props
-    
-    let task_status=""
+    const {tab_type, posts} = props
+    const [isUpdate, setIsUpdate] = useState(false)
     let columns = [
         { title: 'No', align:'center', dataIndex: 'no', key: 'no', fixed: 'left', width: 40},
         { title: 'Status Task', align:'center', dataIndex: 'task_status', key: 'task_status', fixed: 'left'},
@@ -24,7 +21,6 @@ const TabContent = (props) => {
 
     switch (tab_type) {
         case "pending":
-            task_status = "PENDING"
             columns.push(
                 { title: 'Muatan',
                     children : [
@@ -37,7 +33,6 @@ const TabContent = (props) => {
             )
             break;
         case "process":
-            task_status = "PROCESS"
             columns.push(
                 { title: 'Supir', align:'center', dataIndex: 'driver_name', key: 'driver_name'},
                 { title: 'Plat', align:'center', dataIndex: 'vehicle_no', key: 'vehicle_no'},
@@ -45,7 +40,6 @@ const TabContent = (props) => {
             )
             break;
         case "done":
-            task_status = "COMPLETE"
             columns.push(
                 { title: 'Supir', align:'center', dataIndex: 'driver_name', key: 'driver_name'},
                 { title: 'Plat', align:'center', dataIndex: 'vehicle_no', key: 'vehicle_no'},
@@ -57,22 +51,10 @@ const TabContent = (props) => {
             break;
     }
 
-    let request_params = {
-        task_status,
-        start_date : start,
-        end_date : end,
+    if (isUpdate) {
+        setIsUpdate(false)
+        props.updateData(true)
     }
-
-    useEffect(() => {
-         getTask(request_params, (status, result) => {
-            if (status) {
-                setPosts(result);
-            } else {
-                console.log(result)
-            }
-        })
-        // eslint-disable-next-line
-    }, []);
 
     const dataset = posts.map((obj, index) =>  {
         
@@ -104,7 +86,7 @@ const TabContent = (props) => {
             datas.action = <Space wrap>
                 {obj.task_status === "ASSIGNED" ? 
                     <>  
-                        <FormAssignDriver task_id={obj.taskid}></FormAssignDriver>
+                        <FormAssignDriver task_id={obj.taskid} isUpdate={setIsUpdate}></FormAssignDriver>
                         <FormRejectTask task_id={obj.taskid}></FormRejectTask> 
                     </> : null}
             </Space>

@@ -82,8 +82,10 @@ const FormAssignDriver = (props) => {
             "notes_fr_transp" : values.remark_to_driver,
             "task_status" : "NOTIFY DRIVER",
         }
-        
-        updateTask(updateTaskData, () => {
+
+        props.isUpdate(true)
+
+        updateTask(updateTaskData, () => {            
             setIsModalOpen(false);
         })
     };

@@ -23,7 +23,7 @@ const rangeConfig = {
     ],
 };
 
-const AssignmentFrag = ({dateRangeValue}) => {
+const AssignmentFrag = (props) => {
     const { RangePicker } = DatePicker
 
     const onFinish = (fieldsValue) => {
@@ -40,7 +40,8 @@ const AssignmentFrag = ({dateRangeValue}) => {
             end : rangeValue[1].format('YYYY-MM-DD')
         }
 
-        dateRangeValue(data)
+        props.dateRangeValue(data)
+        props.isUpdate(true)
     };
 
     return (

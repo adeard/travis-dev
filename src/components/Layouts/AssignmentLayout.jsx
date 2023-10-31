@@ -5,17 +5,26 @@ import TabMenu from '../Elements/Menu/TabMenu';
 
 const AssignmentLayout = () => {
     const [dateRangeValue, setDateRangeValue] = useState({}); 
+    const [isUpdate, setIsUpdate] = useState(false)
+    const [updateDateRange, setUpdateDateRange] = useState(false)
+    const [handleDateRange, setHandleDateRange] = useState(false)
 
-    const handleDateRangeValue = (data) => {
-        setDateRangeValue(data);
-    };
+    if (isUpdate) {
+        setIsUpdate(false)
+        setUpdateDateRange(true)
+    }
+
+    if (handleDateRange) {
+        setUpdateDateRange(false)
+        setHandleDateRange(false)
+    }
 
     return (
         <div>
-            <AssignmentFrag dateRangeValue={handleDateRangeValue}></AssignmentFrag>
+            <AssignmentFrag dateRangeValue={setDateRangeValue} isUpdate={setIsUpdate}></AssignmentFrag>
             <Row>
                 <Col span={24}>
-                    <TabMenu daterange={dateRangeValue}></TabMenu>
+                    <TabMenu daterange={dateRangeValue} updateDateRange={updateDateRange} handleDateRange={setHandleDateRange}></TabMenu>
                 </Col>
             </Row>
         </div>
