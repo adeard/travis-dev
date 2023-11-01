@@ -6,17 +6,17 @@ const { Sider } = Layout;
 
 const menu_list = [
     {
-        label: <Link to='/Travis'>Home</Link>,
+        label: <Link to='/'>Home</Link>,
         key: 'home',
         icon: <HomeOutlined />,
     },
     {
-        label: <Link to='/Travis/assignment'>Assignment</Link>,
+        label: <Link to='/assignment'>Assignment</Link>,
         key: 'assignment',
         icon: <CopyOutlined />,
     },
     {
-        label: <Link to='/Travis/master'>Master</Link>,
+        label: <Link to='/master'>Master</Link>,
         key: 'master',
         icon: <CarOutlined />,
     },

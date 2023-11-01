@@ -1,5 +1,6 @@
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 import { Layout, theme, Button } from 'antd';
+import { useNavigate } from 'react-router-dom'
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
@@ -12,6 +13,7 @@ const { Header } = Layout;
 const HeaderFrag = (props) => {
     const {collapseTrigger} = props
     const [collapsed, setCollapsed] = useState(false);
+    const navigate = useNavigate();
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -23,10 +25,11 @@ const HeaderFrag = (props) => {
 
     const handleLogout = () => {
         localStorage.removeItem("token")
-        window.location.href = "/Travis/auth/login"
+        // window.location.href = "/Travis/auth/login"
+        navigate('/auth/login')
     }
 
-    // useLogin()
+    useLogin()
     
     return (
         <Header
