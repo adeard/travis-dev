@@ -9,10 +9,13 @@ const TabMenu = (props) => {
     const [posts, setPosts] = useState([]);
     const [taskStatus, setTaskStatus] = useState("PENDING");
     const [updateData, setUpdateData] = useState(false);
+    const serializedData = localStorage.getItem("logged_user");
     
+    let loggedUser = JSON.parse(serializedData);
     let requestParams = {
         start_date : daterange.start,
         end_date : daterange.end,
+        vendor_id : loggedUser.code,
     }
 
     const handleClick = (values) => {        

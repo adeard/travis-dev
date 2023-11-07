@@ -6,6 +6,7 @@ import { getVehicles } from '../../api/vehicle.service';
 const VehicleTabLayout = () => {
     const [vehicles, setVehicles] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
+    const serializedData = localStorage.getItem("logged_user");
     const columns = [
         { title: 'No', dataIndex: 'no', key: 'no', },
         { title: 'Nomor Plat', dataIndex: 'vehicle_no', key: 'vehicle_no', },
@@ -13,9 +14,10 @@ const VehicleTabLayout = () => {
         { title: 'Category', dataIndex: 'vehicle_type_category', key: 'vehicle_type_category', },
     ];
 
+    let loggedUser = JSON.parse(serializedData);
     let request_params = {
         page : 1,
-        vendor_id : "",
+        vendor_id : loggedUser.code,
     }
 
     if (isUpdate) {
