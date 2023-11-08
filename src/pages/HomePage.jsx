@@ -23,8 +23,13 @@ import {
   } from 'chart.js'
 import { getTaskStatistic, getTaskStatisticByDate } from '../api/task.service';
 
-export default function HomePage() {   
-    const [statisticTask, setStatisticTask] = useState({}) 
+export default function HomePage() {     
+    const [startedTotal, setStartedTotal] = useState(0)
+    const [arrivedTotal, setArrivedTotal] = useState(0)
+    const [assignedTotal, setAssignedTotal] = useState(0)
+    const [completedTotal, setCompletedTotal] = useState(0)    
+    const [unassignedTotal, setUnassignedTotal] = useState(0)
+    const [notifyDriverTotal, setNotifyDriverTotal] = useState(0)
     const [statisticTaskDate, setStatisticTaskDate] = useState([])
     const serializedData = localStorage.getItem("logged_user");
     ChartJS.register(
@@ -55,7 +60,30 @@ export default function HomePage() {
     useEffect(() => {
         getTaskStatistic(requestParams, (status, result) => {
             if (status) {
-                setStatisticTask(result)
+                result.forEach(element => {                    
+                    switch (element.task_status) {
+                        case "UNASSIGNED":
+                            setUnassignedTotal(element.total_task)
+                            break;
+                        case "ASSIGNED":
+                            setAssignedTotal(element.total_task)
+                            break;
+                        case "NOTIFY DRIVER":
+                            setNotifyDriverTotal(element.total_task) 
+                            break;
+                        case "STARTED":
+                            setStartedTotal(element.total_task) 
+                            break;
+                        case "ARRIVED":
+                            setArrivedTotal(element.total_task) 
+                            break;
+                        case "COMPLETED":
+                            setCompletedTotal(element.total_task) 
+                            break;
+                        default:
+                            break;
+                    }
+                });
             } else {
                 console.log(result)
             }
@@ -138,7 +166,7 @@ export default function HomePage() {
                     <Card bordered={false} style={{ backgroundColor:"rgba(255, 99, 132, 0.2)" }}>
                         <Statistic 
                         title={<p style={{margin:"0px", color:"black", fontSize:"14px"}}>Unassigned</p>}
-                        value={(statisticTask[6]) ? statisticTask[6].total_task : 0}
+                        value={unassignedTotal}
                         valueStyle={{
                             color: 'black',
                         }}
@@ -151,7 +179,7 @@ export default function HomePage() {
                     <Card bordered={false} style={{ backgroundColor:"rgba(255, 159, 64, 0.2)" }}>
                         <Statistic 
                         title={<p style={{margin:"0px", color:"black", fontSize:"14px"}}>Assigned</p>}
-                        value={(statisticTask[2]) ? statisticTask[2].total_task : 0}
+                        value={assignedTotal}
                         valueStyle={{
                             color: 'black',
                         }}
@@ -164,7 +192,7 @@ export default function HomePage() {
                     <Card bordered={false} style={{ backgroundColor:"rgba(255, 205, 86, 0.2)" }}>
                         <Statistic
                         title={<p style={{margin:"0px", color:"black", fontSize:"14px"}}>Notify Driver</p>}
-                        value={(statisticTask[4]) ? statisticTask[4].total_task : 0}
+                        value={notifyDriverTotal}
                         valueStyle={{
                             color: 'black',
                         }}
@@ -177,7 +205,7 @@ export default function HomePage() {
                     <Card bordered={false} style={{ backgroundColor:"rgba(75, 192, 192, 0.2)" }}>
                         <Statistic
                         title={<p style={{margin:"0px", color:"black", fontSize:"14px"}}>Started</p>}
-                        value={(statisticTask[5]) ? statisticTask[5].total_task : 0}
+                        value={startedTotal}
                         valueStyle={{
                             color: 'black',
                         }}
@@ -190,7 +218,7 @@ export default function HomePage() {
                     <Card bordered={false} style={{ backgroundColor:"rgba(153, 102, 255, 0.2)" }}>
                         <Statistic
                         title={<p style={{margin:"0px", color:"black", fontSize:"14px"}}>Arrived</p>}
-                        value={(statisticTask[1]) ? statisticTask[1].total_task : 0}
+                        value={arrivedTotal}
                         valueStyle={{
                             color: 'black',
                         }}
@@ -203,7 +231,7 @@ export default function HomePage() {
                     <Card bordered={false} style={{ backgroundColor:"rgba(54, 162, 235, 0.2)" }}>
                         <Statistic
                         title={<p style={{margin:"0px", color:"black", fontSize:"14px"}}>Completed</p>}
-                        value={(statisticTask[3]) ? statisticTask[3].total_task : 0}
+                        value={completedTotal}
                         valueStyle={{
                             color: 'black',
                         }}
