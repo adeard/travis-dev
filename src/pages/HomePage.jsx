@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Bar } from "react-chartjs-2";
 import { 
     DatabaseFilled, 
@@ -21,11 +21,12 @@ import {
     Legend,
     BarElement,
   } from 'chart.js'
+import { getTaskStatistic, getTaskStatisticByDate } from '../api/task.service';
 
-
-
-export default function HomePage() {
-    
+export default function HomePage() {   
+    const [statisticTask, setStatisticTask] = useState({}) 
+    const [statisticTaskDate, setStatisticTaskDate] = useState([])
+    const serializedData = localStorage.getItem("logged_user");
     ChartJS.register(
         CategoryScale,
         LinearScale,
@@ -35,52 +36,97 @@ export default function HomePage() {
         Tooltip,
         Legend,
         BarElement,
-      )
+    )
+
+    let date = []
+
+    let startedVal = []
+    let arrivedVal = []
+    let assignedVal = []
+    let completedVal = []
+    let unassignedVal = []    
+    let notifyDriverVal = []
+
+    let loggedUser = JSON.parse(serializedData);
+    let requestParams = {
+        vendor_id: loggedUser.code,
+    }
+
+    useEffect(() => {
+        getTaskStatistic(requestParams, (status, result) => {
+            if (status) {
+                setStatisticTask(result)
+            } else {
+                console.log(result)
+            }
+        })
+
+        getTaskStatisticByDate(requestParams, (status, result) => {
+            if (status) {
+                setStatisticTaskDate(result)
+            } else {
+                console.log(result)
+            }
+        })
+        // eslint-disable-next-line
+    }, [])
+
+    if (statisticTaskDate.length > 0) {        
+        statisticTaskDate.forEach(element => {
+            date.push(element.task_date);
+            startedVal.push(element.task_statuses.started)
+            arrivedVal.push(element.task_statuses.arrived)
+            assignedVal.push(element.task_statuses.assigned)
+            completedVal.push(element.task_statuses.completed)
+            unassignedVal.push(element.task_statuses.unassigned)
+            notifyDriverVal.push(element.task_statuses.notify_driver)
+        });
+    }
 
     const state = {
-        labels: ['2023-10-16', '2023-10-17', '2023-10-18'],
+        labels: date,
         datasets: [
           {
             label: 'Unassigned',
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             borderColor: 'rgba(255, 99, 132)',
             borderWidth: 1,
-            data: [65, 59, 80]
+            data: unassignedVal
           },
           {
             label: 'Assigned',
             backgroundColor: 'rgba(255, 159, 64, 0.2)',
             borderColor: 'rgba(255, 159, 64)',
             borderWidth: 1,
-            data: [12, 32, 15]
+            data: assignedVal
           },
           {
             label: 'Notify Driver',
             backgroundColor: 'rgba(255, 205, 86, 0.2)',
             borderColor: 'rgba(255, 205, 86)',
             borderWidth: 1,
-            data: [15, 23, 64]
+            data: notifyDriverVal
           },
           {
             label: 'Started',
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
             borderColor: 'rgba(75, 192, 192)',
             borderWidth: 1,
-            data: [12, 16, 87]
+            data: startedVal
           },
           {
             label: 'Arrived',
             backgroundColor: 'rgba(153, 102, 255, 0.2)',
             borderColor: 'rgba(153, 102, 255)',
             borderWidth: 1,
-            data: [53, 76, 34]
+            data: arrivedVal
           },
           {
             label: 'Completed',
             backgroundColor: 'rgba(54, 162, 235, 0.2)',
             borderColor: 'rgba(54, 162, 235)',
             borderWidth: 1,
-            data: [12, 87, 54]
+            data: completedVal
           },
         ]
       }
@@ -92,7 +138,7 @@ export default function HomePage() {
                     <Card bordered={false} style={{ backgroundColor:"rgba(255, 99, 132, 0.2)" }}>
                         <Statistic 
                         title={<p style={{margin:"0px", color:"black", fontSize:"14px"}}>Unassigned</p>}
-                        value={9}
+                        value={(statisticTask[6]) ? statisticTask[6].total_task : 0}
                         valueStyle={{
                             color: 'black',
                         }}
@@ -105,7 +151,7 @@ export default function HomePage() {
                     <Card bordered={false} style={{ backgroundColor:"rgba(255, 159, 64, 0.2)" }}>
                         <Statistic 
                         title={<p style={{margin:"0px", color:"black", fontSize:"14px"}}>Assigned</p>}
-                        value={9}
+                        value={(statisticTask[2]) ? statisticTask[2].total_task : 0}
                         valueStyle={{
                             color: 'black',
                         }}
@@ -118,7 +164,7 @@ export default function HomePage() {
                     <Card bordered={false} style={{ backgroundColor:"rgba(255, 205, 86, 0.2)" }}>
                         <Statistic
                         title={<p style={{margin:"0px", color:"black", fontSize:"14px"}}>Notify Driver</p>}
-                        value={2}
+                        value={(statisticTask[4]) ? statisticTask[4].total_task : 0}
                         valueStyle={{
                             color: 'black',
                         }}
@@ -131,7 +177,7 @@ export default function HomePage() {
                     <Card bordered={false} style={{ backgroundColor:"rgba(75, 192, 192, 0.2)" }}>
                         <Statistic
                         title={<p style={{margin:"0px", color:"black", fontSize:"14px"}}>Started</p>}
-                        value={23}
+                        value={(statisticTask[5]) ? statisticTask[5].total_task : 0}
                         valueStyle={{
                             color: 'black',
                         }}
@@ -144,7 +190,7 @@ export default function HomePage() {
                     <Card bordered={false} style={{ backgroundColor:"rgba(153, 102, 255, 0.2)" }}>
                         <Statistic
                         title={<p style={{margin:"0px", color:"black", fontSize:"14px"}}>Arrived</p>}
-                        value={14}
+                        value={(statisticTask[1]) ? statisticTask[1].total_task : 0}
                         valueStyle={{
                             color: 'black',
                         }}
@@ -157,7 +203,7 @@ export default function HomePage() {
                     <Card bordered={false} style={{ backgroundColor:"rgba(54, 162, 235, 0.2)" }}>
                         <Statistic
                         title={<p style={{margin:"0px", color:"black", fontSize:"14px"}}>Completed</p>}
-                        value={11}
+                        value={(statisticTask[3]) ? statisticTask[3].total_task : 0}
                         valueStyle={{
                             color: 'black',
                         }}
@@ -180,7 +226,20 @@ export default function HomePage() {
                     legend:{
                     display:true,
                     position:'right'
-                    }
+                    },
+                    animations: {
+                        y: {
+                          easing: 'easeInOutElastic',
+                          from: (ctx) => {
+                            if (ctx.type === 'data') {
+                              if (ctx.mode === 'default' && !ctx.dropped) {
+                                ctx.dropped = true;
+                                return 0;
+                              }
+                            }
+                          }
+                        }
+                      },
                 }}
                 />                
             </Row>
