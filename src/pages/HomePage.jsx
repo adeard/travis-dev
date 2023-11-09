@@ -49,12 +49,14 @@ export default function HomePage() {
     let arrivedVal = []
     let assignedVal = []
     let completedVal = []
+    let requestParams = {}
     let unassignedVal = []    
     let notifyDriverVal = []
 
-    let loggedUser = JSON.parse(serializedData);
-    let requestParams = {
-        vendor_id: loggedUser.code,
+    if (serializedData) {
+        let loggedUser = JSON.parse(serializedData);
+
+        requestParams.vendor_id = loggedUser.code
     }
 
     useEffect(() => {
