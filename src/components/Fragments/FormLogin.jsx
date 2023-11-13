@@ -63,7 +63,7 @@ const FormLogin = () => {
             }]} />
 
             <Form.Item wrapperCol={{offset: 2, span: 15}}>
-                <ButtonElement>Submit</ButtonElement>
+                <ButtonElement>Login</ButtonElement>
             </Form.Item>
         </Form>
         </>

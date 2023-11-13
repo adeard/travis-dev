@@ -4,8 +4,7 @@ import {
     SoundFilled, 
     RocketFilled, 
     HomeFilled, 
-    CheckCircleFilled ,
-    MessageFilled
+    CheckCircleFilled 
 } from '@ant-design/icons';
 import { Col } from 'antd';
 import TaskCard from '../Elements/Card/TaskCard';
@@ -15,44 +14,37 @@ const StatisticCardFrag = (props) => {
         startedTotal, 
         arrivedTotal, 
         assignedTotal, 
-        completedTotal, 
-        unassignedTotal, 
+        completedTotal,
         notifyDriverTotal
     } = props;
 
-    const cardList = [
+    const cardList = [        
         {
-            style: { backgroundColor:"rgba(255, 99, 132, 0.2)" },
-            title: "Unassigned",
-            value: unassignedTotal,
-            prefix: <MessageFilled />
-        },
-        {
-            style: { backgroundColor:"rgba(255, 159, 64, 0.2)" },
+            style: { backgroundColor:"#9ee493" },
             title: "Assigned",
             value: assignedTotal,
             prefix: <DatabaseFilled />
         },
         {
-            style: { backgroundColor:"rgba(255, 205, 86, 0.2)" },
+            style: { backgroundColor:"#FFC8DD" },
             title: "Notify Driver",
             value: notifyDriverTotal,
             prefix: <SoundFilled />
         },
         {
-            style: { backgroundColor:"rgba(75, 192, 192, 0.2)" },
+            style: { backgroundColor:"#e5b3fe" },
             title: "Started",
             value: startedTotal,
             prefix: <RocketFilled />
         },
         {
-            style: { backgroundColor:"rgba(153, 102, 255, 0.2)" },
+            style: { backgroundColor:"#BDE0FE" },
             title: "Arrived",
             value: arrivedTotal,
             prefix: <HomeFilled />
         },
         {
-            style: { backgroundColor:"rgba(54, 162, 235, 0.2)" },
+            style: { backgroundColor:"#6fffe9" },
             title: "Completed",
             value: completedTotal,
             prefix: <CheckCircleFilled />
@@ -61,6 +53,7 @@ const StatisticCardFrag = (props) => {
 
     return (
         <>
+            <Col span={2}></Col>
             {cardList.map((task) => (                                
                 <Col span={4}>
                     <TaskCard 
@@ -71,6 +64,7 @@ const StatisticCardFrag = (props) => {
                     />
                 </Col>
             ))}    
+            <Col span={2}></Col>
         </>   
     )
 }

@@ -6,6 +6,7 @@ import FormRejectTask from './FormRejectTask';
 
 const TabContent = (props) => {
     const {tab_type, posts} = props
+    console.log(posts)
     const [isUpdate, setIsUpdate] = useState(false)
     let columns = [
         { title: 'No', align:'center', dataIndex: 'no', key: 'no', fixed: 'left', width: 40},
@@ -16,7 +17,7 @@ const TabContent = (props) => {
         { title: 'Jenis Kirim', align:'center', dataIndex: 'send_type', key: 'send_type'},        
         { title: 'DO No', align:'center', dataIndex: 'do_no', key: 'do_no'},
         { title: 'ShipTo', align:'center', dataIndex: 'ship_to', key: 'ship_to'},
-        { title: 'Alamat Tujuan', align:'center', dataIndex: 'alamat_tujuan', key: 'alamat_tujuan'},
+        { title: 'Alamat Tujuan', align:'center', dataIndex: 'alamat_tujuan', key: 'alamat_tujuan', ellipsis: true},
     ];
 
     switch (tab_type) {
@@ -71,7 +72,7 @@ const TabContent = (props) => {
             "task_id" : <Link to={`/information-delivery/${obj.taskid}`}>{obj.taskid}</Link>,
             "do_no" : obj.vbeln,
             "ship_to" : obj.shipto,
-            "alamat_tujuan" : obj.alamat_tujuan,
+            "alamat_tujuan" : obj.shipto_street,
             "tonnase" : obj.brgew,
             "volume" : obj.volum,
             "req_vehicle" : obj.vehicle_type,

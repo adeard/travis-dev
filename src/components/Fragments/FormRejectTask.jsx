@@ -47,7 +47,7 @@ const FormRejectTask = (props) => {
         <>
             <Button shape="round" size="small" type="primary" onClick={showModal} danger>Reject</Button>
             <Modal 
-                    title="Tambah Kendaraan" 
+                    title="Reject Task" 
                     open={isModalOpen} 
                     onCancel={handleCancel} 
                     footer={null}

@@ -12,21 +12,21 @@ const InformationDeliveryPage = () => {
     const [tasklogs, setTaskLogs] = useState([])
 
     const columns = [
-        { title: 'No', align:'center', dataIndex: 'no', key: 'no'},
+        { title: 'No', align:'center', dataIndex: 'no', key: 'no', width: 40},
         { title: 'Lokasi Pickup', align:'center', dataIndex: 'pickup_location', key: 'pickup_location'},
-        { title: 'Tanggal DO', align:'center', dataIndex: 'do_date', key: 'do_date'},
+        { title: 'Tanggal DO', align:'center', dataIndex: 'do_date', key: 'do_date', ellipsis: true},
         { title: 'Jenis Kirim', align:'center', dataIndex: 'send_type', key: 'send_type'},
-        { title: 'Task ID', align:'center', dataIndex: 'task_id', key: 'task_id'},
+        { title: 'Task ID', align:'center', dataIndex: 'task_id', key: 'task_id', ellipsis: true},
         { title: 'DO No', align:'center', dataIndex: 'do_no', key: 'do_no'},
         { title: 'ShipTo', align:'center', dataIndex: 'ship_to', key: 'ship_to'},
-        { title: 'Alamat Tujuan', align:'center', dataIndex: 'alamat_tujuan', key: 'alamat_tujuan'},
+        { title: 'Alamat Tujuan', align:'center', dataIndex: 'alamat_tujuan', key: 'alamat_tujuan', ellipsis: true},
         { title: 'Muatan',
             children : [
                 { title: 'Tonnase', align:'center', dataIndex: 'tonnase', key: 'tonnase'},
                 { title: 'Volume', align:'center', dataIndex: 'volume', key: 'volume'},
             ]
         },
-        { title: 'Req Kendaraan', align:'center', dataIndex: 'req_vehicle', key: 'req_vehicle'},
+        { title: 'Req Kendaraan', align:'center', dataIndex: 'req_vehicle', key: 'req_vehicle', ellipsis: true},
     ];
 
     useEffect(() => {
@@ -59,7 +59,7 @@ const InformationDeliveryPage = () => {
             "task_id" : obj.taskid,
             "do_no" : obj.vbeln,
             "ship_to" : obj.shipto,
-            "alamat_tujuan" : obj.alamat_tujuan,
+            "alamat_tujuan" : obj.shipto_street,
             "tonnase" : obj.brgew,
             "volume" : obj.volum,
             "req_vehicle" : obj.vehicle_type,

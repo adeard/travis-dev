@@ -50,44 +50,37 @@ const StaticBar = (props) => {
         labels: date,
         datasets: [
           {
-            label: 'Unassigned',
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132)',
-            borderWidth: 1,
-            data: unassignedVal
-          },
-          {
             label: 'Assigned',
-            backgroundColor: 'rgba(255, 159, 64, 0.2)',
-            borderColor: 'rgba(255, 159, 64)',
+            backgroundColor: '#9ee493',
+            borderColor: '#9ee493',
             borderWidth: 1,
             data: assignedVal
           },
           {
             label: 'Notify Driver',
-            backgroundColor: 'rgba(255, 205, 86, 0.2)',
-            borderColor: 'rgba(255, 205, 86)',
+            backgroundColor: '#FFC8DD',
+            borderColor: '#FFC8DD',
             borderWidth: 1,
             data: notifyDriverVal
           },
           {
             label: 'Started',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192)',
+            backgroundColor: '#e5b3fe',
+            borderColor: '#e5b3fe',
             borderWidth: 1,
             data: startedVal
           },
           {
             label: 'Arrived',
-            backgroundColor: 'rgba(153, 102, 255, 0.2)',
-            borderColor: 'rgba(153, 102, 255)',
+            backgroundColor: '#BDE0FE',
+            borderColor: '#BDE0FE',
             borderWidth: 1,
             data: arrivedVal
           },
           {
             label: 'Completed',
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235)',
+            backgroundColor: '#6fffe9',
+            borderColor: '#6fffe9',
             borderWidth: 1,
             data: completedVal
           },
