@@ -55,7 +55,7 @@ const StatisticCardFrag = (props) => {
         <>
             <Col span={2}></Col>
             {cardList.map((task) => (                                
-                <Col span={4}>
+                <Col span={4} key={task.title}>
                     <TaskCard 
                         style={task.style} 
                         title={task.title}

@@ -21,7 +21,11 @@ const AssignmentLayout = () => {
 
     return (
         <div>
-            <AssignmentFrag dateRangeValue={setDateRangeValue} isUpdate={setIsUpdate}></AssignmentFrag>
+            <Row>
+                <Col span={24}>
+                    <AssignmentFrag dateRangeValue={setDateRangeValue} isUpdate={setIsUpdate}></AssignmentFrag>
+                </Col>
+            </Row>  
             <Row>
                 <Col span={24}>
                     <TabMenu daterange={dateRangeValue} updateDateRange={updateDateRange} handleDateRange={setHandleDateRange}></TabMenu>

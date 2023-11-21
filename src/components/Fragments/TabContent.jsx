@@ -6,7 +6,6 @@ import FormRejectTask from './FormRejectTask';
 
 const TabContent = (props) => {
     const {tab_type, posts} = props
-    console.log(posts)
     const [isUpdate, setIsUpdate] = useState(false)
     let columns = [
         { title: 'No', align:'center', dataIndex: 'no', key: 'no', fixed: 'left', width: 40},
@@ -17,7 +16,7 @@ const TabContent = (props) => {
         { title: 'Jenis Kirim', align:'center', dataIndex: 'send_type', key: 'send_type'},        
         { title: 'DO No', align:'center', dataIndex: 'do_no', key: 'do_no'},
         { title: 'ShipTo', align:'center', dataIndex: 'ship_to', key: 'ship_to'},
-        { title: 'Alamat Tujuan', align:'center', dataIndex: 'alamat_tujuan', key: 'alamat_tujuan', ellipsis: true},
+        { title: 'Alamat Tujuan', align:'center', dataIndex: 'alamat_tujuan', key: 'alamat_tujuan'},
     ];
 
     switch (tab_type) {
@@ -57,12 +56,10 @@ const TabContent = (props) => {
         props.updateData(true)
     }
 
-    const dataset = posts.map((obj, index) =>  {
-        
+    const dataset = posts.map((obj, index) =>  {        
         let bldat = obj.bldat.split("T")
         let erdat = obj.erdat.split("T")
         let receive_date = obj.bldat.split("T")
-
         let datas = {
             "no" : index + 1,
             "key" : index + 1,
