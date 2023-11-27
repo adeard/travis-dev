@@ -36,7 +36,6 @@ const AssignmentFrag = (props) => {
         }
 
         props.dateRangeValue(data)
-        props.isUpdate(true)
     };
 
     return (

@@ -4,7 +4,6 @@ import { CarTwoTone } from '@ant-design/icons';
 import InputForm from '../Elements/Input/InputForm';
 import { getDrivers, getDriverDetail } from '../../api/driver.service';
 import { getVehicles, getVehicle } from '../../api/vehicle.service';
-import { updateTask } from '../../api/task.service';
 
 const FormAssignDriver = (props) => {
     const { task_id } = props
@@ -83,11 +82,10 @@ const FormAssignDriver = (props) => {
             "task_status" : "NOTIFY DRIVER",
         }
 
-        props.isUpdate(true)
+        setIsModalOpen(false);
 
-        updateTask(updateTaskData, () => {            
-            setIsModalOpen(false);
-        })
+        props.handleAssignDriver(updateTaskData)
+
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);

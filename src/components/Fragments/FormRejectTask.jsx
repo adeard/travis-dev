@@ -1,7 +1,5 @@
 import React,{useState} from 'react'
 import { Form, Input, Radio, Space, Button, Modal } from 'antd';
-import { updateTask } from '../../api/task.service';
-
 
 const FormRejectTask = (props) => {
     const {task_id} = props
@@ -34,10 +32,10 @@ const FormRejectTask = (props) => {
         if (values.reject_reason !== "Lain - lain") {
             reason.notes_fr_sales = values.reject_reason   
         }
-        
-        updateTask(reason, () => {
-            setIsModalOpen(false);
-        })
+
+        setIsModalOpen(false);
+
+        props.handleRejectDriver(reason)
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
