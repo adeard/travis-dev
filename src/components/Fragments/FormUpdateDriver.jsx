@@ -28,6 +28,7 @@ const FormUpdateDriver = (props) => {
     };
 
     const handleCancel = () => {
+        document.getElementById("edit_driver").reset();
         setIsModalOpen(false);
     };
 
@@ -55,6 +56,7 @@ const FormUpdateDriver = (props) => {
                 >
                 <h3>User Access</h3>
                 <Form
+                    id='edit_driver'
                     name={driver_id}
                     labelCol={{ span: 8 }}
                     wrapperCol={{ span: 16 }}
