@@ -11,7 +11,7 @@ export const addDriver = (data, callback) => {
 }
 
 export const getDrivers = (data, callback) => {
-    axios.get(`${Api}/api/v1/driver?vendor_id=${data.vendor_id}`,
+    axios.get(`${Api}/api/v1/driver?vendor_id=${data.vendor_id}&driver_status=${data.driver_status ? data.driver_status : ''}`,
     { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }).then((res) => {
         callback(res.data.data.data)
     }).catch((err) => {

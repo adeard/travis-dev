@@ -21,6 +21,7 @@ const FormAssignDriver = (props) => {
     let request_params = {
         vendor_id : loggedUser.code,
         page : 1,
+        driver_status : "AKTIF"
     }
 
     let selectedVehicle = {

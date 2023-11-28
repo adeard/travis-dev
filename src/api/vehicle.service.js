@@ -36,3 +36,12 @@ export const getVehicle = (vehicleId, callback) => {
         console.log(err)
     })
 }
+
+export const updateVehicle = (data, callback) => {
+    axios.post(`${Api}/api/v1/vehicle/${data.vehicle_id}`, data,
+    { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }).then((res) => {
+        callback(true, res.data)
+    }).catch((err) => {
+        callback(false, err)
+    })
+}
