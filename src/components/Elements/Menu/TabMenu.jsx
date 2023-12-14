@@ -1,24 +1,18 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import { Tabs, Space, Table } from 'antd';
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { filterAssignmentDate, updateTaskList } from '../../../redux/slices/dateSlice';
 import { BookTwoTone, CarTwoTone, CheckCircleTwoTone } from '@ant-design/icons';
 import FormAssignDriver from '../../Fragments/FormAssignDriver';
 import FormRejectTask from '../../Fragments/FormRejectTask';
 
+
 const TabMenu = (props) => {
-    const { daterange, updateDateRange, posts } = props
+    const dispatch = useDispatch()
+    const { posts } = props
     const [taskStatus, setTaskStatus] = useState("PENDING");
-    const [updateData, setUpdateData] = useState(false);
-    const [handleAssignDriver, setHandleAssignDriver] = useState()
-    const [handleRejectDriver, setHandleRejectDriver] = useState()
-    const serializedData = localStorage.getItem("logged_user");
-    
-    let loggedUser = JSON.parse(serializedData);
-    let requestParams = {
-        start_date : daterange.start,
-        end_date : daterange.end,
-        vendor_id : loggedUser.code,
-    }
+    const dateStatistic = useSelector((state) => state.date_statistic)
 
     let columns = [
         { title: 'No', align:'center', dataIndex: 'no', key: 'no', fixed: 'left', width: 40},
@@ -61,53 +55,34 @@ const TabMenu = (props) => {
             break;
     }
 
-    const handleClick = (values) => {        
+    const handleClick = (values) => {
+        let filter = {
+            start_date : dateStatistic.start_date,
+            end_date : dateStatistic.end_date,
+            vendor_id : dateStatistic.vendor_id,
+        }
+
         switch (values) {
             case 2:
+                filter.task_status = "PROCESS"                
                 setTaskStatus("PROCESS")
-                requestParams.task_status = "PROCESS"
-                props.handleTabType("PROCESS")
 
                 break;
             case 3:
+                filter.task_status = "COMPLETE"
                 setTaskStatus("COMPLETE")
-                requestParams.task_status = "COMPLETE"
-                props.handleTabType("COMPLETE")
 
                 break;        
             default:
+                filter.task_status = "PENDING"
                 setTaskStatus("PENDING")
-                requestParams.task_status = "PENDING"
-                props.handleTabType("PENDING")
 
                 break;
         }
 
-        props.handleDateRange(true)
+        dispatch(filterAssignmentDate(filter))
+        dispatch(updateTaskList({is_update:1}))
     }
-
-    if (updateDateRange) {
-        requestParams.task_status = taskStatus
-
-        props.handleDateRange(true)
-    }
-
-    if (updateData) {
-        requestParams.task_status = taskStatus
-
-        setUpdateData(false)
-    }
-
-    useEffect(() => {
-        if (handleAssignDriver) {
-            props.handleAssignDriver(handleAssignDriver)
-        }
-
-        if (handleRejectDriver) {
-            props.handleRejectDriver(handleRejectDriver)
-        }
-        // eslint-disable-next-line
-    }, [handleAssignDriver, handleRejectDriver]);
 
     const dataset = posts.map((obj, index) =>  {        
         let bldat = obj.bldat.split("T")
@@ -137,8 +112,8 @@ const TabMenu = (props) => {
             datas.action = <Space wrap>
                 {obj.task_status === "ASSIGNED" ? 
                     <>  
-                        <FormAssignDriver task_id={obj.taskid} handleAssignDriver={setHandleAssignDriver}></FormAssignDriver>
-                        <FormRejectTask task_id={obj.taskid} handleRejectDriver={setHandleRejectDriver}></FormRejectTask> 
+                        <FormAssignDriver task_id={obj.taskid}></FormAssignDriver>
+                        <FormRejectTask task_id={obj.taskid}></FormRejectTask> 
                     </> : null}
             </Space>
         }

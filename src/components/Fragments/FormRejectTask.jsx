@@ -1,8 +1,12 @@
 import React,{useState} from 'react'
 import { Form, Input, Radio, Space, Button, Modal } from 'antd';
+import { updateTaskList } from '../../redux/slices/dateSlice';
+import { useDispatch } from 'react-redux';
+import { updateTask } from '../../api/task.service';
 
 const FormRejectTask = (props) => {
     const {task_id} = props
+    const dispatch = useDispatch()
     const [value, setValue] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -33,9 +37,13 @@ const FormRejectTask = (props) => {
             reason.notes_fr_sales = values.reject_reason   
         }
 
-        setIsModalOpen(false);
-
-        props.handleRejectDriver(reason)
+        updateTask(reason, (status) => {            
+            if (!status) {
+                console.log(status)
+            }
+            setIsModalOpen(false);
+            dispatch(updateTaskList({is_update:1}))
+        })
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);

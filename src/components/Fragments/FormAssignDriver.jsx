@@ -4,10 +4,14 @@ import { CarTwoTone } from '@ant-design/icons';
 import InputForm from '../Elements/Input/InputForm';
 import { getDrivers, getDriverDetail } from '../../api/driver.service';
 import { getVehicles, getVehicle } from '../../api/vehicle.service';
+import { updateTask } from '../../api/task.service';
+import { useDispatch } from 'react-redux';
+import { updateTaskList } from '../../redux/slices/dateSlice';
 
 const FormAssignDriver = (props) => {
     const { task_id } = props
-    const { Option } = Select;        
+    const { Option } = Select;     
+    const dispatch = useDispatch()   
     const [driver, setDriver] = useState(null);
     const [drivers, setDrivers] = useState([]);
     const [vehicle, setVehicle] = useState(null);
@@ -16,6 +20,7 @@ const FormAssignDriver = (props) => {
     const [isChangeVehicle, setChangeVehicle] = useState(false)
     const tooltipText = <span>ganti kendaraan ?</span>;
     const serializedData = localStorage.getItem("logged_user");
+    
  
     let loggedUser = JSON.parse(serializedData);
     let request_params = {
@@ -83,10 +88,13 @@ const FormAssignDriver = (props) => {
             "task_status" : "NOTIFY DRIVER",
         }
 
-        setIsModalOpen(false);
-
-        props.handleAssignDriver(updateTaskData)
-
+        updateTask(updateTaskData, (status) => {            
+            if (!status) {
+                console.log(status)
+            }
+            setIsModalOpen(false);
+            dispatch(updateTaskList({is_update:1}))
+        })
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);

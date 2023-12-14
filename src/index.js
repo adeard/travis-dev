@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Provider } from 'react-redux'
+import store from './redux/store'
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import Assignment from './pages/AssignmentPage';
@@ -37,6 +39,7 @@ import Error404 from './pages/Error404';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     // <RouterProvider router={router} />
+    <Provider store={store}>
     <div>
         <BrowserRouter basename='/Travis'>      
           <Routes>
@@ -48,6 +51,7 @@ root.render(
           </Routes>
         </BrowserRouter>
     </div>
+    </Provider>
 );
 
 reportWebVitals();

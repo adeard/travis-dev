@@ -1,107 +1,54 @@
 import React, { useState, useEffect } from 'react'
 import { Col, Row } from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
 import AssignmentFrag from '../Fragments/AssignmentFrag';
 import TabMenu from '../Elements/Menu/TabMenu';
-import { getTask, updateTask } from '../../api/task.service';
+import { getTask } from '../../api/task.service';
+import { filterAssignmentDate, updateTaskList } from '../../redux/slices/dateSlice';
 
 const AssignmentLayout = () => {    
+    const dispatch = useDispatch()
     const [posts, setPosts] = useState([]);
-    const [isUpdate, setIsUpdate] = useState(false)
-    const [handleTabType, setHandleTabType] = useState("PENDING")
-    const [dateRangeValue, setDateRangeValue] = useState({}); 
-    const [updateDateRange, setUpdateDateRange] = useState(false)
-    const [handleDateRange, setHandleDateRange] = useState(false)
-    const [handleAssignDriver, setHandleAssignDriver] = useState()
-    const [handleRejectDriver, setHandleRejectDriver] = useState()
-    
+    const dateStatistic = useSelector((state) => state.date_statistic)
     const serializedData = localStorage.getItem("logged_user");
-
-    let loggedUser = JSON.parse(serializedData);
-    let requestParams = {
-        start_date : dateRangeValue.start,
-        end_date : dateRangeValue.end,
-        vendor_id : loggedUser.code,
-    }
-
-    if (isUpdate) {
-        setIsUpdate(false)
-        setUpdateDateRange(true)
-    }
-
-    if (handleDateRange) {
-        setUpdateDateRange(false)
-        setHandleDateRange(false)
-    }
 
     
 
     useEffect(() => {
-        requestParams.task_status = handleTabType
-        getTask(requestParams, (status, result) => {
+        let loggedUser = JSON.parse(serializedData);
+
+        dispatch(filterAssignmentDate({task_status:"PENDING", vendor_id:loggedUser.code}))
+        dispatch(updateTaskList({is_update:1}))
+        // eslint-disable-next-line
+    }, [])
+
+    useEffect(() => {        
+        if (!dateStatistic.task_status || dateStatistic.is_update === 0) {
+            return
+        }
+
+        dispatch(updateTaskList({is_update:0}))
+
+        getTask(dateStatistic, (status, result) => {
             if (status) {
                 setPosts(result);
             } else {
                 console.log(result)
             }
         })
-
-        if (handleAssignDriver) {
-            updateTask(handleAssignDriver, (status) => {            
-                if (!status) {
-                    console.log(status)
-                }
-            })
-
-            getTask(requestParams, (status, result) => {
-                if (status) {
-                    setPosts(result);
-                } else {
-                    console.log(result)
-                }
-            })
-        }
-
-        if (handleRejectDriver) {
-            updateTask(handleRejectDriver, (status) => {            
-                if (!status) {
-                    console.log(status)
-                }
-            })
-
-            getTask(requestParams, (status, result) => {
-                if (status) {
-                    setPosts(result);
-                } else {
-                    console.log(result)
-                }
-            })
-        }
         // eslint-disable-next-line
-    }, [
-        handleTabType, 
-        dateRangeValue, 
-        handleAssignDriver, 
-        handleRejectDriver
-    ]);
+    }, [dateStatistic]);
 
     return (
         <div>
             <Row>
                 <Col span={24}>
-                    <AssignmentFrag dateRangeValue={setDateRangeValue} isUpdate={setIsUpdate}></AssignmentFrag>
+                    <AssignmentFrag></AssignmentFrag>
                 </Col>
             </Row>  
             <Row>
                 <Col span={24}>
-                    <TabMenu 
-                        daterange={dateRangeValue} 
-                        updateDateRange={updateDateRange} 
-                        handleDateRange={setHandleDateRange} 
-                        posts={posts} 
-                        handleTabType={setHandleTabType}
-                        handleAssignDriver={setHandleAssignDriver}
-                        handleRejectDriver={setHandleRejectDriver}
-                        />
+                    <TabMenu posts={posts} />
                 </Col>
             </Row>
         </div>
