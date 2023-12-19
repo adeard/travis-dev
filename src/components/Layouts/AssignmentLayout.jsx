@@ -12,8 +12,6 @@ const AssignmentLayout = () => {
     const dateStatistic = useSelector((state) => state.date_statistic)
     const serializedData = localStorage.getItem("logged_user");
 
-    
-
     useEffect(() => {
         let loggedUser = JSON.parse(serializedData);
 
