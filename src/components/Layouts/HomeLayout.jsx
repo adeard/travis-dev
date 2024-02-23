@@ -19,7 +19,7 @@ const HomeLayout = () => {
     if (serializedData) {
         let loggedUser = JSON.parse(serializedData);
 
-        requestParams.vendor_id = loggedUser.code
+        requestParams.vendor_id = loggedUser.code.split("_")[1]
     }
 
     const handleChange = (values) => {

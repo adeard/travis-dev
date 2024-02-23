@@ -21,7 +21,7 @@ const VehicleTabLayout = () => {
     let loggedUser = JSON.parse(serializedData);
     let request_params = {
         page : 1,
-        vendor_id : loggedUser.code,
+        vendor_id : loggedUser.code.split("_")[1],
     }
 
     if (isUpdate) {

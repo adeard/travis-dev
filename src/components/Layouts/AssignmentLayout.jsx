@@ -15,7 +15,7 @@ const AssignmentLayout = () => {
     useEffect(() => {
         let loggedUser = JSON.parse(serializedData);
 
-        dispatch(filterAssignmentDate({task_status:"PENDING", vendor_id:loggedUser.code}))
+        dispatch(filterAssignmentDate({task_status:"PENDING", vendor_id:loggedUser.code.split("_")[1]}))
         dispatch(updateTaskList({is_update:1}))
         // eslint-disable-next-line
     }, [])

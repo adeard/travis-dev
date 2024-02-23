@@ -20,7 +20,7 @@ const FormAddVehicle = (props) => {
         const serializedData = localStorage.getItem("logged_user");
         let loggedUser = JSON.parse(serializedData);
 
-        values.vendor_id = loggedUser.code
+        values.vendor_id = loggedUser.code.split("_")[1]
 
         setLoadings(true)
 

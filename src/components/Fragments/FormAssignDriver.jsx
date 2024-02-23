@@ -24,7 +24,7 @@ const FormAssignDriver = (props) => {
  
     let loggedUser = JSON.parse(serializedData);
     let request_params = {
-        vendor_id : loggedUser.code,
+        vendor_id : loggedUser.code.split("_")[1],
         page : 1,
         driver_status : "AKTIF"
     }

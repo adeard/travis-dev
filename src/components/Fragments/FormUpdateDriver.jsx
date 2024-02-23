@@ -14,7 +14,7 @@ const FormUpdateDriver = (props) => {
     
     let loggedUser = JSON.parse(serializedData);
     let requestParams = {
-        vendor_id : loggedUser.code
+        vendor_id : loggedUser.code.split("_")[1]
     }
 
     const showModal = () => {
