@@ -6,6 +6,7 @@ import StatisticBarFrag from '../Fragments/StatisticBarFrag';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { filterDate } from '../../redux/slices/dateSlice';
+import StatisticPieFrag from '../Fragments/StatisticPieFrag';
 
 dayjs.extend(customParseFormat);
 
@@ -56,8 +57,19 @@ const HomeLayout = () => {
                 <StatisticCardFrag />
             </Row>
             <br />
-            <Row gutter={16}>                
-                <StatisticBarFrag />
+            <Row gutter={8}>   
+                <Col span={2}></Col>
+                <Col span={8}>
+                    <br />
+                    <Row justify='center' style={{height:'300px'}}>
+                        <StatisticPieFrag />
+                    </Row>
+                </Col>    
+                <Col span={12}>
+                    <br />
+                    <StatisticBarFrag />                    
+                </Col> 
+                <Col span={2}></Col>        
             </Row>
         </>
     )

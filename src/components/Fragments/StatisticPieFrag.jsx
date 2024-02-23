@@ -1,18 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { getTaskStatistic } from '../../api/task.service';
-import { 
-    DatabaseFilled, 
-    SoundFilled, 
-    RocketFilled, 
-    HomeFilled, 
-    CheckCircleFilled 
-} from '@ant-design/icons';
-import { Col } from 'antd';
-import TaskCard from '../Elements/Card/TaskCard';
+import StatisticPie from '../Elements/Chart/StatisticPie';
 
-const StatisticCardFrag = () => {
-
+const StatisticPieFrag = () => {
     const [startedTotal, setStartedTotal] = useState(0)
     const [arrivedTotal, setArrivedTotal] = useState(0)
     const [assignedTotal, setAssignedTotal] = useState(0)
@@ -21,7 +12,7 @@ const StatisticCardFrag = () => {
     const dateStatistic = useSelector((state) => state.date_statistic)
 
     useEffect(() => {
-
+        console.log("masuk")
         setAssignedTotal(0)
         setNotifyDriverTotal(0)
         setStartedTotal(0)
@@ -56,57 +47,35 @@ const StatisticCardFrag = () => {
             }
         })
         // eslint-disable-next-line
-    }, [dateStatistic])
+    }, [])
 
-    const cardList = [        
+    const state = {
+        labels: ['Assigned', 'Notify Driver', 'Started', 'Arrived', 'Completed'],
+        datasets: [
         {
-            style: { backgroundColor:"#9ee493" },
-            title: "Assigned",
-            value: assignedTotal,
-            prefix: <DatabaseFilled />
+            label: '# of Task',
+            data: [assignedTotal, notifyDriverTotal, startedTotal, arrivedTotal, completedTotal],
+            backgroundColor: [
+              '#9ee493',
+              '#FFC8DD',
+              '#e5b3fe',
+              '#BDE0FE',
+              '#6fffe9',
+            ],
+            borderColor: [
+              '#9ee493',
+              '#FFC8DD',
+              '#e5b3fe',
+              '#BDE0FE',
+              '#6fffe9',
+            ],
+            borderWidth: 1,
         },
-        {
-            style: { backgroundColor:"#FFC8DD" },
-            title: "Notify Driver",
-            value: notifyDriverTotal,
-            prefix: <SoundFilled />
-        },
-        {
-            style: { backgroundColor:"#e5b3fe" },
-            title: "Started",
-            value: startedTotal,
-            prefix: <RocketFilled />
-        },
-        {
-            style: { backgroundColor:"#BDE0FE" },
-            title: "Arrived",
-            value: arrivedTotal,
-            prefix: <HomeFilled />
-        },
-        {
-            style: { backgroundColor:"#6fffe9" },
-            title: "Completed",
-            value: completedTotal,
-            prefix: <CheckCircleFilled />
-        },
-    ]
+    ]}
 
     return (
-        <>
-            <Col span={2}></Col>
-            {cardList.map((task) => (                                
-                <Col span={4} key={task.title}>
-                    <TaskCard 
-                        style={task.style} 
-                        title={task.title}
-                        value={task.value}
-                        prefix={task.prefix}
-                    />
-                </Col>
-            ))}    
-            <Col span={2}></Col>
-        </>   
+        <StatisticPie state={state} />  
     )
 }
 
-export default StatisticCardFrag
+export default StatisticPieFrag

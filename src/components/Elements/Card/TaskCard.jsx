@@ -6,7 +6,7 @@ const TaskCard = (props) => {
     const {style, title, value, prefix} = props
 
     return (
-        <Card bordered={false} style={style}>
+        <Card size='small' bordered={false} style={style}>
             <Statistic
                 title={<p style={{ margin:"0px", color:"black", fontSize:"14px" }}>{title}</p>}
                 value={value}

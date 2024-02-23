@@ -1,37 +1,26 @@
 import React from 'react'
-import { Bar } from "react-chartjs-2";
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-    BarElement,
-  } from 'chart.js'
+import { Pie } from "react-chartjs-2";
+import { 
+    Chart as ChartJS, 
+    ArcElement, 
+    Tooltip
+} from 'chart.js';
 
-const StatisticBar = (props) => {
+const StatisticPie = (props) => {
     const {state} = props
 
-    ChartJS.register(
-        CategoryScale,
-        LinearScale,
-        PointElement,
-        LineElement,
-        Title,
-        Tooltip,
-        Legend,
-        BarElement,
-    )
+    if (!state) {
+        return
+    }
+
+    ChartJS.register(ArcElement, Tooltip)
 
     return (
-        <Bar
+        <Pie
             data={state}
             options={{
                 title:{
-                    display:true,
+                    display:false,
                     text:'Task Statistic',
                     fontSize:20
                 },
@@ -41,6 +30,8 @@ const StatisticBar = (props) => {
                         position:'right'
                     }
                 },
+                
+                
                 animations: {
                     y: {
                         easing: 'easeInOutElastic',
@@ -59,4 +50,4 @@ const StatisticBar = (props) => {
     )
 }
 
-export default StatisticBar
+export default StatisticPie

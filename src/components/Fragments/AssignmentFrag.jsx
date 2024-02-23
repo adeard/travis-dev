@@ -30,7 +30,7 @@ const AssignmentFrag = () => {
         let data = {
             start_date : "",
             end_date : "",
-            vendor_id : loggedUser.email.split("@")[0]
+            vendor_id : loggedUser.code.split("_")[1]
         }
 
         if (fieldsValue['range-picker']) {

@@ -16,9 +16,6 @@ const StatisticBarFrag = () => {
     let notifyDriverVal = []
 
     useEffect(() => {
-        if (!dateStatistic.vendor_id) {
-            return
-        }
 
         getTaskStatisticByDate(dateStatistic, (status, result) => {
             if (status) {
