@@ -28,6 +28,7 @@ const StatisticBar = (props) => {
 
     return (
         <Bar
+            style={{height:'300px'}}
             data={state}
             options={{
                 title:{

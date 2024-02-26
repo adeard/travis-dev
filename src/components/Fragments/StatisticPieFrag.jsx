@@ -12,7 +12,6 @@ const StatisticPieFrag = () => {
     const dateStatistic = useSelector((state) => state.date_statistic)
 
     useEffect(() => {
-        console.log("masuk")
         setAssignedTotal(0)
         setNotifyDriverTotal(0)
         setStartedTotal(0)
@@ -47,7 +46,7 @@ const StatisticPieFrag = () => {
             }
         })
         // eslint-disable-next-line
-    }, [])
+    }, [dateStatistic])
 
     const state = {
         labels: ['Assigned', 'Notify Driver', 'Started', 'Arrived', 'Completed'],
@@ -56,13 +55,6 @@ const StatisticPieFrag = () => {
             label: '# of Task',
             data: [assignedTotal, notifyDriverTotal, startedTotal, arrivedTotal, completedTotal],
             backgroundColor: [
-              '#9ee493',
-              '#FFC8DD',
-              '#e5b3fe',
-              '#BDE0FE',
-              '#6fffe9',
-            ],
-            borderColor: [
               '#9ee493',
               '#FFC8DD',
               '#e5b3fe',

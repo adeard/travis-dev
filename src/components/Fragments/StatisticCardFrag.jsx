@@ -8,7 +8,7 @@ import {
     HomeFilled, 
     CheckCircleFilled 
 } from '@ant-design/icons';
-import { Col } from 'antd';
+import { List } from 'antd';
 import TaskCard from '../Elements/Card/TaskCard';
 
 const StatisticCardFrag = () => {
@@ -92,20 +92,24 @@ const StatisticCardFrag = () => {
     ]
 
     return (
-        <>
-            <Col span={2}></Col>
-            {cardList.map((task) => (                                
-                <Col span={4} key={task.title}>
-                    <TaskCard 
+        <List
+            grid={{
+            gutter: 16,
+            column: 5,
+            }}
+            dataSource={cardList}
+            renderItem={(task) => (
+            <List.Item>
+                {/* <Card title={item.title}>Card content</Card> */}
+                <TaskCard 
                         style={task.style} 
                         title={task.title}
                         value={task.value}
                         prefix={task.prefix}
                     />
-                </Col>
-            ))}    
-            <Col span={2}></Col>
-        </>   
+            </List.Item>
+            )}
+        />
     )
 }
 
