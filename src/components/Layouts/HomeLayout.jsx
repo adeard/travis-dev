@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Row, DatePicker, Col, List } from 'antd';
-import { useDispatch } from 'react-redux'
+import { Row, DatePicker, Col } from 'antd';
+import { useDispatch, useSelector } from 'react-redux'
 import StatisticCardFrag from '../Fragments/StatisticCardFrag';
 import StatisticBarFrag from '../Fragments/StatisticBarFrag';
 import dayjs from 'dayjs';
+import { getTaskStatisticByDate, getTaskStatistic } from '../../api/task.service';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { filterDate } from '../../redux/slices/dateSlice';
 import StatisticPieFrag from '../Fragments/StatisticPieFrag';
-import { BookTwoTone, CarTwoTone } from '@ant-design/icons';
-import { getTaskView } from '../../api/task.service';
-import { Link } from "react-router-dom";
+import PendingTaskListHomeFrag from '../Fragments/PendingTaskListHome';
+import ProcessTaskListHomeFrag from '../Fragments/ProcessTaskListHome';
 
 dayjs.extend(customParseFormat);
 
@@ -17,8 +17,9 @@ const HomeLayout = () => {
     const { RangePicker } = DatePicker
     const dispatch = useDispatch()
     const serializedData = localStorage.getItem("logged_user");
-    const [pendingTask, setPendingTask] = useState([])
-    const [processTask, setProcessTask] = useState([])
+    const dateStatistic = useSelector((state) => state.date_statistic)
+    const [statisticTask, setStatisticTask] = useState([])
+    const [statisticTaskDate, setStatisticTaskDate] = useState({})
 
     let requestParams = {}
 
@@ -42,26 +43,24 @@ const HomeLayout = () => {
     }
 
     useEffect(() => {
-        dispatch(filterDate(requestParams))
 
-        getTaskView({'task_status': "PENDING", "limit":5}, (status, result) => {
+        getTaskStatisticByDate(dateStatistic, (status, result) => {
             if (status) {
-                setPendingTask(result);
+                setStatisticTaskDate(result)
             } else {
                 console.log(result)
             }
         })
 
-        getTaskView({'task_status': "PROCESS", "limit":5}, (status, result) => {
+        getTaskStatistic(dateStatistic, (status, result) => {
             if (status) {
-                setProcessTask(result);
+                setStatisticTask(result)
             } else {
                 console.log(result)
             }
         })
-
         // eslint-disable-next-line
-    }, [])
+    }, [dateStatistic.vendor_id])
 
     return (
         <>
@@ -77,7 +76,7 @@ const HomeLayout = () => {
             <br />
             <Row gutter={16}>
                 <Col span={24}>
-                    <StatisticCardFrag />
+                    <StatisticCardFrag statisticTask={statisticTask} />
                 </Col>                
             </Row>
             <br />
@@ -85,55 +84,25 @@ const HomeLayout = () => {
                 <Col span={8}>
                     <br />
                     <Row justify='center' style={{height:'300px'}}>
-                        <StatisticPieFrag />
+                        <StatisticPieFrag statisticTask={statisticTask} />
                     </Row>
                 </Col>    
                 <Col span={16}>
                     <br />
                     <Row justify='center' style={{height:'300px'}}>
-                        <StatisticBarFrag />                    
+                        <StatisticBarFrag statisticTaskDate = {statisticTaskDate} />                    
                     </Row>                    
                 </Col>     
             </Row>
             <br />
             <Row gutter={16}>
                 <Col span={12}>
-                    <h3>
-                        Pending Task
-                    </h3>
-                    <List
-                    size='small'
-                        itemLayout="horizontal"
-                        dataSource={pendingTask}
-                        renderItem={(item) => (
-                        <List.Item>
-                            <List.Item.Meta
-                            avatar={<BookTwoTone />}
-                            title={<Link to={`/information-delivery/${item.task_id}`}>{item.task_id}</Link>}
-                            description={<span>{item.task_date} {item.task_status} {item.jenis_kirim}</span>}
-                            />
-                        </List.Item>
-                        )}
-                    />
+                    <h3>Pending Task</h3>
+                    <PendingTaskListHomeFrag />
                 </Col>
                 <Col span={12}>
-                    <h3>
-                        Process
-                    </h3>
-                    <List
-                    size='small'
-                        itemLayout="horizontal"
-                        dataSource={processTask}
-                        renderItem={(item) => (
-                            <List.Item>
-                            <List.Item.Meta
-                            avatar={<CarTwoTone />}
-                            title={item.task_id}
-                            description={<span>{item.task_date} {item.task_status} {item.jenis_kirim}</span>}
-                            />
-                        </List.Item>
-                        )}
-                    />
+                    <h3>Process</h3>
+                    <ProcessTaskListHomeFrag />
                 </Col>
             </Row>
         </>

@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux';
-import { getTaskStatistic } from '../../api/task.service';
 import StatisticPie from '../Elements/Chart/StatisticPie';
 
-const StatisticPieFrag = () => {
+const StatisticPieFrag = (props) => {
+    const { statisticTask } = props
+
     const [startedTotal, setStartedTotal] = useState(0)
     const [arrivedTotal, setArrivedTotal] = useState(0)
     const [assignedTotal, setAssignedTotal] = useState(0)
     const [completedTotal, setCompletedTotal] = useState(0)    
     const [notifyDriverTotal, setNotifyDriverTotal] = useState(0)
-    const dateStatistic = useSelector((state) => state.date_statistic)
 
     useEffect(() => {
         setAssignedTotal(0)
@@ -18,35 +17,29 @@ const StatisticPieFrag = () => {
         setArrivedTotal(0)
         setCompletedTotal(0)
 
-        getTaskStatistic(dateStatistic, (status, result) => {
-            if (status) {
-                result.forEach(element => {                    
-                    switch (element.task_status) {
-                        case "ASSIGNED":
-                            setAssignedTotal(element.total_task)
-                            break;
-                        case "NOTIFY DRIVER":
-                            setNotifyDriverTotal(element.total_task) 
-                            break;
-                        case "STARTED":
-                            setStartedTotal(element.total_task) 
-                            break;
-                        case "ARRIVED":
-                            setArrivedTotal(element.total_task) 
-                            break;
-                        case "COMPLETED":
-                            setCompletedTotal(element.total_task) 
-                            break;
-                        default:
-                            break;
-                    }
-                });
-            } else {
-                console.log(result)
+        statisticTask.forEach(element => {                    
+            switch (element.task_status) {
+                case "ASSIGNED":
+                    setAssignedTotal(element.total_task)
+                    break;
+                case "NOTIFY DRIVER":
+                    setNotifyDriverTotal(element.total_task) 
+                    break;
+                case "STARTED":
+                    setStartedTotal(element.total_task) 
+                    break;
+                case "ARRIVED":
+                    setArrivedTotal(element.total_task) 
+                    break;
+                case "COMPLETED":
+                    setCompletedTotal(element.total_task) 
+                    break;
+                default:
+                    break;
             }
-        })
+        });
         // eslint-disable-next-line
-    }, [dateStatistic])
+    }, [statisticTask])
 
     const state = {
         labels: ['Assigned', 'Notify Driver', 'Started', 'Arrived', 'Completed'],
