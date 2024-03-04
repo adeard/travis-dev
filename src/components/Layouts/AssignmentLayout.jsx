@@ -3,7 +3,7 @@ import { Col, Row } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import AssignmentFrag from '../Fragments/AssignmentFrag';
 import TabMenu from '../Elements/Menu/TabMenu';
-import { getTask } from '../../api/task.service';
+import { getTaskVolum } from '../../api/task.service';
 import { filterAssignmentDate, updateTaskList } from '../../redux/slices/dateSlice';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -36,7 +36,7 @@ const AssignmentLayout = () => {
 
         dispatch(updateTaskList({is_update:0}))
 
-        getTask(dateStatistic, (status, result) => {
+        getTaskVolum(dateStatistic, (status, result) => {
             if (status) {
                 setPosts(result);
             } else {

@@ -18,11 +18,11 @@ const TabMenu = (props) => {
         { title: 'No', align:'center', dataIndex: 'no', key: 'no', fixed: 'left', width: 40},
         { title: 'Status Task', align:'center', dataIndex: 'task_status', key: 'task_status', fixed: 'left'},
         { title: 'Task ID', align:'center', dataIndex: 'task_id', key: 'task_id', fixed: 'left'},
+        { title: 'DO No', align:'center', dataIndex: 'do_no', key: 'do_no', fixed: 'left'},
         { title: 'Lokasi Pickup', align:'center', dataIndex: 'pickup_location', key: 'pickup_location'},        
         { title: 'Tanggal Task', align:'center', dataIndex: 'erdat', key: 'erdat'},        
         { title: 'Tanggal DO', align:'center', dataIndex: 'do_date', key: 'do_date'},
-        { title: 'Jenis Kirim', align:'center', dataIndex: 'send_type', key: 'send_type'},        
-        { title: 'DO No', align:'center', dataIndex: 'do_no', key: 'do_no'},
+        { title: 'Jenis Kirim', align:'center', dataIndex: 'send_type', key: 'send_type'},                
         { title: 'ShipTo', align:'center', dataIndex: 'ship_to', key: 'ship_to'},
         { title: 'Alamat Tujuan', align:'center', dataIndex: 'alamat_tujuan', key: 'alamat_tujuan'},
     ];
