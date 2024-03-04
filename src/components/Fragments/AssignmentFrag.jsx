@@ -54,10 +54,17 @@ const AssignmentFrag = () => {
                     <Form.Item                    
                     name="range-picker" 
                     id="range-picker" 
-                    label="Tanggal DO" 
-                    htmlFor='bldat' 
+                    label="Tanggal Task" 
+                    htmlFor='erdat' 
+                    initialValue={[
+                        dayjs(dayjs().add(-30, 'day').format("YYYY-MM-DD")),
+                        dayjs()
+                    ]}
                     >
-                        <RangePicker id="bldat" name="bldat" />
+                        <RangePicker 
+                        id="erdat" 
+                        name="erdat" 
+                        />
                     </Form.Item>
                 </Col>
                 <Col span={2} key={2}>

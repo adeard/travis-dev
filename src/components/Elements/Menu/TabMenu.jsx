@@ -19,6 +19,7 @@ const TabMenu = (props) => {
         { title: 'Status Task', align:'center', dataIndex: 'task_status', key: 'task_status', fixed: 'left'},
         { title: 'Task ID', align:'center', dataIndex: 'task_id', key: 'task_id', fixed: 'left'},
         { title: 'Lokasi Pickup', align:'center', dataIndex: 'pickup_location', key: 'pickup_location'},        
+        { title: 'Tanggal Task', align:'center', dataIndex: 'erdat', key: 'erdat'},        
         { title: 'Tanggal DO', align:'center', dataIndex: 'do_date', key: 'do_date'},
         { title: 'Jenis Kirim', align:'center', dataIndex: 'send_type', key: 'send_type'},        
         { title: 'DO No', align:'center', dataIndex: 'do_no', key: 'do_no'},
