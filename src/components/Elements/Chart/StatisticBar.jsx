@@ -10,6 +10,7 @@ import {
     Tooltip,
     Legend,
     BarElement,
+    TimeScale,
   } from 'chart.js'
 
 const StatisticBar = (props) => {
@@ -24,6 +25,7 @@ const StatisticBar = (props) => {
         Tooltip,
         Legend,
         BarElement,
+        TimeScale,
     )
 
     return (
@@ -31,16 +33,32 @@ const StatisticBar = (props) => {
             style={{height:'300px'}}
             data={state}
             options={{
+                responsive: true,
                 title:{
                     display:true,
                     text:'Task Statistic',
                     fontSize:20
                 },
-                plugins:{
-                    legend:{
-                        display:false,
-                        position:'right'
-                    }
+                scales: {
+                    x: {
+                        title: {
+                          display: true,
+                          text: 'Date'
+                        },
+                        stacked: true,
+                      },
+                    y: {
+                        title: {
+                          display: true,
+                          text: 'Total Task'
+                        },
+                        min: 0,
+                        ticks: {
+                          // forces step size to be 50 units
+                          stepSize: 2
+                        },
+                        stacked: true,
+                    },
                 },
                 animations: {
                     y: {

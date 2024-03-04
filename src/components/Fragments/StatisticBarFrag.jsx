@@ -1,5 +1,9 @@
 import React from 'react'
 import StatisticBar from '../Elements/Chart/StatisticBar';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
 
 const StatisticBarFrag = (props) => {
     const { statisticTaskDate } = props
@@ -14,7 +18,7 @@ const StatisticBarFrag = (props) => {
 
     if (statisticTaskDate.length > 0) {        
         statisticTaskDate.forEach(element => {
-            date.push(element.task_date);
+            date.push( dayjs(element.task_date).format('DD MMM'));
             startedVal.push(element.task_statuses.started)
             arrivedVal.push(element.task_statuses.arrived)
             assignedVal.push(element.task_statuses.assigned)

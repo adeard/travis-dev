@@ -22,7 +22,8 @@ const FormLogin = () => {
                 localStorage.setItem('token', token)                
                 getLoggedUser((status, result) => {
                     if (status && result) {
-                        localStorage.setItem('logged_user', JSON.stringify(result))
+                        localStorage.setItem('vendor_id', result.code.split("_")[1] ?? "")
+                        localStorage.setItem('logged_user', JSON.stringify(result))                        
                         window.location.href = "/Travis"
                     } else {
                         openNotificationWithIcon('error', "", result)

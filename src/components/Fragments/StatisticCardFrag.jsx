@@ -94,7 +94,6 @@ const StatisticCardFrag = (props) => {
             dataSource={cardList}
             renderItem={(task) => (
             <List.Item>
-                {/* <Card title={item.title}>Card content</Card> */}
                 <TaskCard 
                         style={task.style} 
                         title={task.title}
