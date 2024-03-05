@@ -13,6 +13,7 @@ const TabMenu = (props) => {
     const { posts } = props
     const [taskStatus, setTaskStatus] = useState("PENDING");
     const dateStatistic = useSelector((state) => state.date_statistic)
+    const vendorId = localStorage.getItem('vendor_id')
 
     let columns = [
         { title: 'No', align:'center', dataIndex: 'no', key: 'no', fixed: 'left', width: 40},
@@ -50,9 +51,15 @@ const TabMenu = (props) => {
                         { title: 'Volume', align:'center', dataIndex: 'volume', key: 'volume'},
                     ]
                 },
-                { title: 'Req Kendaraan', align:'center', dataIndex: 'req_vehicle', key: 'req_vehicle', width:180},
-                { title: 'Action', align:'center', dataIndex: 'action', key: 'action', fixed: 'right', width:170},
+                { title: 'Req Kendaraan', align:'center', dataIndex: 'req_vehicle', key: 'req_vehicle', width:180},                
             )
+
+            if (vendorId !== '') {
+                columns.push(
+                    { title: 'Action', align:'center', dataIndex: 'action', key: 'action', fixed: 'right', width:170},
+                )
+            }
+
             break;
     }
 

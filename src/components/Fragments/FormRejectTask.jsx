@@ -12,7 +12,7 @@ const FormRejectTask = (props) => {
 
     let reason = {
         "task_id" : task_id,
-        "notes_fr_sales" : "",
+        "reject_reason" : "",
         "task_status" : "UNASSIGNED"
     }
 
@@ -29,12 +29,12 @@ const FormRejectTask = (props) => {
     };
 
     const handleReasonChange = (e) => {
-        reason.notes_fr_sales = e.target.value
+        reason.reject_reason = e.target.value
     }
 
     const onFinish = (values) => {
         if (values.reject_reason !== "Lain - lain") {
-            reason.notes_fr_sales = values.reject_reason   
+            reason.reject_reason = values.reject_reason   
         }
 
         updateTask(reason, (status) => {            
