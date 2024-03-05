@@ -9,19 +9,23 @@ const VehicleTabLayout = () => {
     const [isUpdate, setIsUpdate] = useState(false);
     const [vehicleTypes, setVehicleTypes] = useState([]);    
     const [handleUpdateVehicle, setHandleUpdateVehicle] = useState();
-    const serializedData = localStorage.getItem("logged_user");
+    const vendorId = localStorage.getItem('vendor_id')
     const columns = [
         { title: 'No', dataIndex: 'no', key: 'no', },
         { title: 'Nomor Plat', dataIndex: 'vehicle_no', key: 'vehicle_no', },
         { title: 'Model', dataIndex: 'vehicle_type_name', key: 'vehicle_type_name', },
         { title: 'Category', dataIndex: 'vehicle_type_category', key: 'vehicle_type_category', },
-        { title: 'Action', align:'center', dataIndex: 'action', key: 'action', },
     ];
 
-    let loggedUser = JSON.parse(serializedData);
+    if (vendorId !== '') {
+        columns.push(
+            { title: 'Action', align:'center', dataIndex: 'action', key: 'action', },
+        )
+    }
+
     let request_params = {
         page : 1,
-        vendor_id : loggedUser.code.split("_")[1],
+        vendor_id : vendorId,
     }
 
     if (isUpdate) {
@@ -75,7 +79,7 @@ const VehicleTabLayout = () => {
         <MasterTab>
             <MasterTab.Header>List Kendaraan</MasterTab.Header>
             <MasterTab.Body>
-                <FormAddVehicle isUpdate={setIsUpdate}></FormAddVehicle>
+                {vendorId && <FormAddVehicle isUpdate={setIsUpdate}></FormAddVehicle>}                
             </MasterTab.Body>
             <MasterTab.Footer datacolumns={columns} data={dataset}></MasterTab.Footer>
         </MasterTab>

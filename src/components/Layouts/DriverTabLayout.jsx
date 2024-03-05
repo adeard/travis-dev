@@ -5,10 +5,10 @@ import { getDrivers } from '../../api/driver.service';
 import FormUpdateDriver from '../Fragments/FormUpdateDriver';
 import UpdateDriverStatus from '../Elements/Button/UpdateDriverStatus';
 
-const DriverTabLayout = () => {
+const DriverTabLayout = () => {    
     const [drivers, setDrivers] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
-    const serializedData = localStorage.getItem("logged_user");
+    const vendorId = localStorage.getItem('vendor_id')
     const columns = [
         { title: 'No', align:'center', dataIndex: 'no',key: 'no', },
         { title: 'ID Supir', align:'center', dataIndex: 'driver_id', key: 'driver_id', },
@@ -18,14 +18,18 @@ const DriverTabLayout = () => {
         { title: 'No HP', align:'center', dataIndex: 'no_hp', key: 'no_hp', },
         { title: 'ID Kendaraan', align:'center', dataIndex: 'vehicle_id', key: 'vehicle_id', },
         { title: 'Status Supir', align:'center', dataIndex: 'driver_status', key: 'driver_status', },
-        { title: 'Action', align:'center', dataIndex: 'action', key: 'action', },
+        
     ];
 
-    let loggedUser = JSON.parse(serializedData);
+    if (vendorId !== '') {
+        columns.push(
+            { title: 'Action', align:'center', dataIndex: 'action', key: 'action', },
+        )
+    }
 
     let request_params = {
         page : 1,
-        vendor_id : loggedUser.code.split("_")[1],
+        vendor_id : localStorage.getItem('vendor_id'),
     }
 
     if (isUpdate) {
@@ -54,10 +58,11 @@ const DriverTabLayout = () => {
             "vehicle_id" : obj.vehicle_id,
             "driver_status" : <>
                                 {obj.driver_status} &nbsp; 
-                                <UpdateDriverStatus 
+                                {vendorId && <UpdateDriverStatus 
                                 driver_id={obj.driver_id} 
                                 status={obj.driver_status} 
-                                isUpdate={setIsUpdate} />                            
+                                isUpdate={setIsUpdate} />}
+                                                         
                             </>,
             "action": <><FormUpdateDriver 
                         driver_id={obj.driver_id} 
@@ -77,7 +82,7 @@ const DriverTabLayout = () => {
         <MasterTab>
             <MasterTab.Header>List Supir</MasterTab.Header>
             <MasterTab.Body>
-                <FormAddDriver isUpdate={setIsUpdate}></FormAddDriver>
+                { vendorId && <FormAddDriver isUpdate={setIsUpdate}></FormAddDriver>}                
             </MasterTab.Body>
             <MasterTab.Footer datacolumns={columns} data={dataset}></MasterTab.Footer>
         </MasterTab>

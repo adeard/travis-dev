@@ -55,7 +55,7 @@ const StatisticBar = (props) => {
                         min: 0,
                         ticks: {
                           // forces step size to be 50 units
-                          stepSize: 2
+                          stepSize: 5
                         },
                         stacked: true,
                     },
