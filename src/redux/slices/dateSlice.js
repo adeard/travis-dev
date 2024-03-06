@@ -13,6 +13,8 @@ const dateSlice = createSlice({
             state.vendor_id = action.payload.vendor_id ?? ""
             state.start_date = action.payload.start_date ?? ""
             state.end_date = action.payload.end_date ?? ""   
+            state.sort_by = action.payload.sort_by ?? ""
+            state.order_by = action.payload.order_by ?? ""
 
             if (action.payload.task_status) {
                 state.task_status = action.payload.task_status ?? ""

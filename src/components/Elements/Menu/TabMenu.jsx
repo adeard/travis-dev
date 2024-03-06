@@ -15,28 +15,46 @@ const TabMenu = (props) => {
     const dateStatistic = useSelector((state) => state.date_statistic)
     const vendorId = localStorage.getItem('vendor_id')
 
+    let filter = {
+        start_date : dateStatistic.start_date,
+        end_date : dateStatistic.end_date,
+        vendor_id : dateStatistic.vendor_id,
+        order_by : dateStatistic.order_by,
+    }
+
     const onChange = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
+
+        filter.order_by = (sorter.column)? sorter.columnKey : ""
+
+        if (sorter.order) {
+            switch (sorter.order) {
+                case "descend":
+                    filter.sort_by = 'desc'
+                    break;
+            
+                default:
+                    filter.sort_by = 'asc'
+                    break;
+            }
+            
+        }
+
+        dispatch(filterAssignmentDate(filter))
+        dispatch(updateTaskList({is_update:1}))
     };
 
     let columns = [
         { title: 'No', align:'center', dataIndex: 'no', key: 'no', fixed: 'left', width: 40},
-        { 
-            title: 'Status Task', 
-            align:'center', 
-            dataIndex: 'task_status', 
-            key: 'task_status', 
-            fixed: 'left',
-            sorter: (a, b) => a.task_status - b.task_status
-        },
-        { title: 'Task ID', align:'center', dataIndex: 'task_id', key: 'task_id', fixed: 'left', sorter: (a, b) => a.task_id - b.task_id},
-        { title: 'DO No', align:'center', dataIndex: 'do_no', key: 'do_no', fixed: 'left', sorter: (a, b) => a.do_no - b.do_no},
-        { title: 'Lokasi Pickup', align:'center', dataIndex: 'pickup_location', key: 'pickup_location', sorter: (a, b) => a.pickup_location - b.pickup_location},        
+        { title: 'Status Task', align:'center', dataIndex: 'task_status', key: 'task_status', fixed: 'left', sorter: (a, b) => a.task_status - b.task_status},
+        { title: 'Task ID', align:'center', dataIndex: 'taskid', key: 'taskid', fixed: 'left', sorter: (a, b) => a.taskid - b.taskid},
+        { title: 'DO No', align:'center', dataIndex: 'vbeln', key: 'vbeln', fixed: 'left', sorter: (a, b) => a.vbeln - b.vbeln},
+        { title: 'Lokasi Pickup', align:'center', dataIndex: 'pick_location', key: 'pick_location', sorter: (a, b) => a.pick_location - b.pick_location},        
         { title: 'Tanggal Task', align:'center', dataIndex: 'erdat', key: 'erdat', sorter: (a, b) => a.erdat - b.erdat},        
-        { title: 'Tanggal DO', align:'center', dataIndex: 'do_date', key: 'do_date', sorter: (a, b) => a.do_date - b.do_date},
-        { title: 'Jenis Kirim', align:'center', dataIndex: 'send_type', key: 'send_type', sorter: (a, b) => a.send_type - b.send_type},                
-        { title: 'ShipTo', align:'center', dataIndex: 'ship_to', key: 'ship_to', sorter: (a, b) => a.ship_to - b.ship_to},
-        { title: 'Alamat Tujuan', align:'center', dataIndex: 'alamat_tujuan', key: 'alamat_tujuan', sorter: (a, b) => a.alamat_tujuan - b.alamat_tujuan},
+        { title: 'Tanggal DO', align:'center', dataIndex: 'bldat', key: 'bldat', sorter: (a, b) => a.bldat - b.bldat},
+        { title: 'Jenis Kirim', align:'center', dataIndex: 'jenis_kirim', key: 'jenis_kirim', sorter: (a, b) => a.jenis_kirim - b.jenis_kirim},                
+        { title: 'Ship To Name', align:'center', dataIndex: 'shipto', key: 'shipto', sorter: (a, b) => a.shipto - b.shipto},
+        { title: 'Alamat Tujuan', align:'center', dataIndex: 'shipto_street', key: 'shipto_street', sorter: (a, b) => a.shipto_street - b.shipto_street},
     ];
 
     switch (taskStatus) {
@@ -58,11 +76,11 @@ const TabMenu = (props) => {
             columns.push(
                 { title: 'Muatan',
                     children : [
-                        { title: 'Tonnase', align:'center', dataIndex: 'tonnase', key: 'tonnase', sorter: (a, b) => a.tonnase - b.tonnase},
-                        { title: 'Volume', align:'center', dataIndex: 'volume', key: 'volume', sorter: (a, b) => a.volume - b.volume},
+                        { title: 'Tonnase', align:'center', dataIndex: 'brgew', key: 'brgew', sorter: (a, b) => a.brgew - b.brgew},
+                        { title: 'Volume', align:'center', dataIndex: 'volum', key: 'volum', sorter: (a, b) => a.volum - b.volum},
                     ]
                 },
-                { title: 'Req Kendaraan', align:'center', dataIndex: 'req_vehicle', key: 'req_vehicle', width:180, sorter: (a, b) => a.req_vehicle - b.req_vehicle},                
+                { title: 'Req Kendaraan', align:'center', dataIndex: 'vehicle_type', key: 'vehicle_type', width:180, sorter: (a, b) => a.vehicle_type - b.vehicle_type},                
             )
 
             if (vendorId !== '') {
@@ -74,13 +92,7 @@ const TabMenu = (props) => {
             break;
     }
 
-    const handleClick = (values) => {
-        let filter = {
-            start_date : dateStatistic.start_date,
-            end_date : dateStatistic.end_date,
-            vendor_id : dateStatistic.vendor_id,
-        }
-
+    const handleClick = (values) => {        
         switch (values) {
             case 2:
                 filter.task_status = "PROCESS"                
@@ -110,16 +122,16 @@ const TabMenu = (props) => {
         let datas = {
             "no" : index + 1,
             "key" : index + 1,
-            "pickup_location" : obj.pick_location, 
-            "do_date" : bldat[0],
-            "send_type" : obj.jenis_kirim,
-            "task_id" : <Link to={`/information-delivery/${obj.taskid}`}>{obj.taskid}</Link>,
-            "do_no" : obj.vbeln,
-            "ship_to" : obj.shipto,
-            "alamat_tujuan" : obj.shipto_street,
-            "tonnase" : obj.brgew,
-            "volume" : obj.volum,
-            "req_vehicle" : obj.vehicle_type,
+            "pick_location" : obj.pick_location, 
+            "bldat" : bldat[0],
+            "jenis_kirim" : obj.jenis_kirim,
+            "taskid" : <Link to={`/information-delivery/${obj.taskid}`}>{obj.taskid}</Link>,
+            "vbeln" : obj.vbeln,
+            "shipto" : obj.shipto,
+            "shipto_street" : obj.shipto_street,
+            "brgew" : obj.brgew,
+            "volum" : obj.volum,
+            "vehicle_type" : obj.vehicle_type,
             "driver_name" : obj.driver_name,
             "vehicle_no" : obj.vehicle_no,
             "erdat" : erdat[0],
@@ -153,12 +165,12 @@ const TabMenu = (props) => {
                 {
                     label: ( <span><CarTwoTone /> Process</span>),
                     key: 2,
-                    children : <Table size="small" columns={columns} dataSource={dataset} scroll={{x: 1800}} />
+                    children : <Table onChange={onChange} size="small" columns={columns} dataSource={dataset} scroll={{x: 1800}} />
                 },
                 {
                     label: ( <span><CheckCircleTwoTone /> Complete</span>),
                     key: 3,
-                    children : <Table size="small" columns={columns} dataSource={dataset} scroll={{x: 1800}} />
+                    children : <Table onChange={onChange} size="small" columns={columns} dataSource={dataset} scroll={{x: 1800}} />
                 },
             ]}
         />

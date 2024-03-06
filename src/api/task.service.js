@@ -11,7 +11,15 @@ export const getTask = (data, callback) => {
 }
 
 export const getTaskVolum = (data, callback) => {
-    axios.get(`${Api}/api/v1/task/volum?task_status=${data.task_status ? data.task_status : ''}&start_date=${data.start_date ? data.start_date : ''}&end_date=${data.end_date ? data.end_date : ''}&taskid=${data.taskid ? data.taskid : ''}&vendor_id=${data.vendor_id ? data.vendor_id : ''}&limit=${data.limit ? data.limit : ''}`,
+    axios.get(`${Api}/api/v1/task/volum?` +
+        `task_status=${data.task_status ? data.task_status : ''}` +
+        `&start_date=${data.start_date ? data.start_date : ''}` +
+        `&end_date=${data.end_date ? data.end_date : ''}` +
+        `&taskid=${data.taskid ? data.taskid : ''}` +
+        `&vendor_id=${data.vendor_id ? data.vendor_id : ''}` +
+        `&limit=${data.limit ? data.limit : ''}` +
+        `&sort_by=${data.sort_by ? data.sort_by : ''}` +
+        `&order_by=${data.order_by ? data.order_by : ''}`,
     { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }).then((res) => {
         callback(true, res.data.data)
     }).catch((err) => {
