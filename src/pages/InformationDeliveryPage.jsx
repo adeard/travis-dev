@@ -18,7 +18,7 @@ const InformationDeliveryPage = () => {
         { title: 'Jenis Kirim', align:'center', dataIndex: 'send_type', key: 'send_type'},
         { title: 'Task ID', align:'center', dataIndex: 'task_id', key: 'task_id'},
         { title: 'DO No', align:'center', dataIndex: 'do_no', key: 'do_no'},
-        { title: 'ShipTo', align:'center', dataIndex: 'ship_to', key: 'ship_to'},
+        { title: 'Ship To Name', align:'center', dataIndex: 'ship_to', key: 'ship_to'},
         { title: 'Alamat Tujuan', align:'center', dataIndex: 'alamat_tujuan', key: 'alamat_tujuan'},
         { title: 'Muatan',
             children : [
@@ -59,7 +59,7 @@ const InformationDeliveryPage = () => {
             "send_type" : obj.jenis_kirim,
             "task_id" : obj.taskid,
             "do_no" : obj.vbeln,
-            "ship_to" : obj.shipto,
+            "ship_to" : obj.shipto_name,
             "alamat_tujuan" : obj.shipto_street,
             "tonnase" : obj.brgew,
             "volume" : obj.volum,

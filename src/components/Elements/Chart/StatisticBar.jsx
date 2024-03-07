@@ -14,7 +14,7 @@ import {
   } from 'chart.js'
 
 const StatisticBar = (props) => {
-    const {state} = props
+    const {state, maxLimit} = props
 
     ChartJS.register(
         CategoryScale,
@@ -33,29 +33,22 @@ const StatisticBar = (props) => {
             style={{height:'300px'}}
             data={state}
             options={{
-                responsive: true,
-                title:{
-                    display:true,
-                    text:'Task Statistic',
-                    fontSize:20
+                plugins: {
+                    title: {
+                      display: true,
+                      text: 'Task Statistic'
+                    },
                 },
                 scales: {
                     x: {
-                        title: {
-                          display: true,
-                          text: 'Date'
-                        },
                         stacked: true,
                       },
                     y: {
-                        title: {
-                          display: true,
-                          text: 'Total Task'
-                        },
                         min: 0,
+                        max: maxLimit,
                         ticks: {
                           // forces step size to be 50 units
-                          stepSize: 5
+                          stepSize: 2
                         },
                         stacked: true,
                     },

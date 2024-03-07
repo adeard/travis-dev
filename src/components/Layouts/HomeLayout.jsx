@@ -7,7 +7,6 @@ import dayjs from 'dayjs';
 import { getTaskStatisticByDate, getTaskStatistic } from '../../api/task.service';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { filterDate } from '../../redux/slices/dateSlice';
-import StatisticPieFrag from '../Fragments/StatisticPieFrag';
 import PendingTaskListHomeFrag from '../Fragments/PendingTaskListHome';
 import ProcessTaskListHomeFrag from '../Fragments/ProcessTaskListHome';
 
@@ -124,17 +123,10 @@ const HomeLayout = () => {
             </Row>
             <br />
             <Row gutter={8}>                      
-                <Col span={16}>
-                    <br />
-                    <Row justify='center' style={{height:'300px'}}>
+                <Col span={24}>
+                    <Row justify='center' style={{height:'500px'}}>
                         <StatisticBarFrag statisticTaskDate = {statisticTaskDate} />                    
                     </Row>                    
-                </Col>  
-                <Col span={8}>
-                    <br />
-                    <Row justify='center' style={{height:'300px'}}>
-                        <StatisticPieFrag statisticTask={statisticTask} />
-                    </Row>
                 </Col>    
             </Row>
             <br />

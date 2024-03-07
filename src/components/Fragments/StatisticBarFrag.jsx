@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import StatisticBar from '../Elements/Chart/StatisticBar';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -7,6 +7,8 @@ dayjs.extend(customParseFormat);
 
 const StatisticBarFrag = (props) => {
     const { statisticTaskDate } = props
+
+    const [maxTask, setMaxTask] = useState(0)
 
     let date = []
     let startedVal = []
@@ -18,6 +20,12 @@ const StatisticBarFrag = (props) => {
 
     if (statisticTaskDate.length > 0) {        
         statisticTaskDate.forEach(element => {
+
+            let totalTask = element.task_statuses.started + element.task_statuses.arrived + element.task_statuses.assigned + element.task_statuses.completed + element.task_statuses.notify_driver
+            if (maxTask < totalTask) {
+              setMaxTask(totalTask)
+            }
+
             date.push( dayjs(element.task_date).format('DD MMM'));
             startedVal.push(element.task_statuses.started)
             arrivedVal.push(element.task_statuses.arrived)
@@ -70,7 +78,7 @@ const StatisticBarFrag = (props) => {
     }
 
     return (
-        <StatisticBar state = {state} />  
+        <StatisticBar state = {state} maxLimit = {maxTask + 5} />  
     )
 }
 

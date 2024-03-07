@@ -127,7 +127,7 @@ const TabMenu = (props) => {
             "jenis_kirim" : obj.jenis_kirim,
             "taskid" : <Link to={`/information-delivery/${obj.taskid}`}>{obj.taskid}</Link>,
             "vbeln" : obj.vbeln,
-            "shipto" : obj.shipto,
+            "shipto" : obj.shipto_name,
             "shipto_street" : obj.shipto_street,
             "brgew" : obj.brgew,
             "volum" : obj.volum,
