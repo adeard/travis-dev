@@ -1,9 +1,9 @@
-import React, {useState} from 'react'
-import { Tabs, Space, Table } from 'antd';
+import React, {useState, useRef} from 'react'
+import { Tabs, Space, Table, Button, Input } from 'antd';
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { filterAssignmentDate, updateTaskList } from '../../../redux/slices/dateSlice';
-import { BookTwoTone, CarTwoTone, CheckCircleTwoTone } from '@ant-design/icons';
+import { BookTwoTone, CarTwoTone, CheckCircleTwoTone, SearchOutlined } from '@ant-design/icons';
 import FormAssignDriver from '../../Fragments/FormAssignDriver';
 import FormRejectTask from '../../Fragments/FormRejectTask';
 
@@ -14,6 +14,7 @@ const TabMenu = (props) => {
     const [taskStatus, setTaskStatus] = useState("PENDING");
     const dateStatistic = useSelector((state) => state.date_statistic)
     const vendorId = localStorage.getItem('vendor_id')
+    const searchInput = useRef(null);
 
     let filter = {
         start_date : dateStatistic.start_date,
@@ -22,37 +23,131 @@ const TabMenu = (props) => {
         order_by : dateStatistic.order_by,
     }
 
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters}) => (
+            <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
+            <Input
+                ref={searchInput}
+                placeholder={`Search ${dataIndex}`}
+                value={selectedKeys[0]}
+                onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                onPressEnter={() => confirm()}
+                style={{
+                    marginBottom: 8,
+                    display: 'block',
+                }}
+            />
+            <Space>
+                <Button
+                    type="primary"
+                    onClick={() => confirm()}
+                    icon={<SearchOutlined />}
+                    size="small"
+                    style={{
+                    width: 90,
+                    }}
+                >
+                    Search
+                </Button>
+                <Button
+                    onClick={() => {
+                            clearFilters && clearFilters()
+                            confirm()
+                        }}
+                    size="small"
+                    style={{
+                        width: 90,
+                    }}
+                >
+                    Reset
+                </Button>
+            </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+          <SearchOutlined
+            style={{
+              color: filtered ? '#1677ff' : undefined,
+            }}
+          />
+        ),
+      });
+
+    
+
     const onChange = (pagination, filters, sorter, extra) => {
-        console.log('params', pagination, filters, sorter, extra);
-
+        filter.vbeln = (filters.vbeln)? filters.vbeln[0] : ""
+        filter.erdat = (filters.erdat)? filters.erdat[0] : ""
+        filter.bldat = (filters.bldat)? filters.bldat[0] : ""
+        filter.taskid = (filters.taskid)? filters.taskid[0] : ""        
+        filter.sort_by = (sorter.order)? ((sorter.order === "descend")? 'desc' : 'asc') : "asc"
         filter.order_by = (sorter.column)? sorter.columnKey : ""
-
-        if (sorter.order) {
-            switch (sorter.order) {
-                case "descend":
-                    filter.sort_by = 'desc'
-                    break;
-            
-                default:
-                    filter.sort_by = 'asc'
-                    break;
-            }
-            
-        }
+        filter.jenis_kirim = (filters.jenis_kirim)? filters.jenis_kirim[0] : ""
+        filter.pick_location = (filters.pick_location)? filters.pick_location[0] : ""
 
         dispatch(filterAssignmentDate(filter))
         dispatch(updateTaskList({is_update:1}))
     };
-
+    
     let columns = [
         { title: 'No', align:'center', dataIndex: 'no', key: 'no', fixed: 'left', width: 40},
-        { title: 'Status Task', align:'center', dataIndex: 'task_status', key: 'task_status', fixed: 'left', sorter: (a, b) => a.task_status - b.task_status},
-        { title: 'Task ID', align:'center', dataIndex: 'taskid', key: 'taskid', fixed: 'left', sorter: (a, b) => a.taskid - b.taskid},
-        { title: 'DO No', align:'center', dataIndex: 'vbeln', key: 'vbeln', fixed: 'left', sorter: (a, b) => a.vbeln - b.vbeln},
-        { title: 'Lokasi Pickup', align:'center', dataIndex: 'pick_location', key: 'pick_location', sorter: (a, b) => a.pick_location - b.pick_location},        
-        { title: 'Tanggal Task', align:'center', dataIndex: 'erdat', key: 'erdat', sorter: (a, b) => a.erdat - b.erdat},        
-        { title: 'Tanggal DO', align:'center', dataIndex: 'bldat', key: 'bldat', sorter: (a, b) => a.bldat - b.bldat},
-        { title: 'Jenis Kirim', align:'center', dataIndex: 'jenis_kirim', key: 'jenis_kirim', sorter: (a, b) => a.jenis_kirim - b.jenis_kirim},                
+        { 
+            title: 'Status Task', 
+            align:'center', 
+            dataIndex: 'task_status', 
+            key: 'task_status', 
+            fixed: 'left',          
+            sorter: (a, b) => a.task_status - b.task_status
+        },            
+        { 
+            title: 'Task ID', 
+            align:'center', 
+            dataIndex: 'taskid', 
+            key: 'taskid', 
+            fixed: 'left', 
+            ...getColumnSearchProps('taskid'),
+            sorter: (a, b) => a.taskid - b.taskid
+        },
+        { 
+            title: 'DO No', 
+            align:'center',
+            dataIndex: 'vbeln', 
+            key: 'vbeln', 
+            fixed: 'left', 
+            ...getColumnSearchProps('vbeln'),
+            sorter: (a, b) => a.vbeln - b.vbeln
+        },
+        { 
+            title: 'Lokasi Pickup', 
+            align:'center', 
+            dataIndex: 'pick_location', 
+            key: 'pick_location', 
+            ...getColumnSearchProps('pick_location'),
+            sorter: (a, b) => a.pick_location - b.pick_location
+        },        
+        { 
+            title: 'Tanggal Task', 
+            align:'center', 
+            dataIndex: 'erdat', 
+            key: 'erdat', 
+            ...getColumnSearchProps('erdat'),
+            sorter: (a, b) => a.erdat - b.erdat},        
+        { 
+            title: 'Tanggal DO', 
+            align:'center', 
+            dataIndex: 'bldat', 
+            key: 'bldat', 
+            ...getColumnSearchProps('bldat'),
+            sorter: (a, b) => a.bldat - b.bldat
+        },
+        { 
+            title: 'Jenis Kirim', 
+            align:'center', 
+            dataIndex: 'jenis_kirim', 
+            key: 'jenis_kirim', 
+            ...getColumnSearchProps('jenis_kirim'),
+            sorter: (a, b) => a.jenis_kirim - b.jenis_kirim
+        },                
         { title: 'Ship To Name', align:'center', dataIndex: 'shipto', key: 'shipto', sorter: (a, b) => a.shipto - b.shipto},
         { title: 'Alamat Tujuan', align:'center', dataIndex: 'shipto_street', key: 'shipto_street', sorter: (a, b) => a.shipto_street - b.shipto_street},
     ];
@@ -72,7 +167,7 @@ const TabMenu = (props) => {
                 { title: 'Tgl Selesai', align:'center', dataIndex: 'receive_date', key: 'receive_date', sorter: (a, b) => a.receive_date - b.receive_date},
             )
             break;        
-        default:
+        default:            
             columns.push(
                 { title: 'Muatan',
                     children : [

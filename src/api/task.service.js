@@ -12,14 +12,19 @@ export const getTask = (data, callback) => {
 
 export const getTaskVolum = (data, callback) => {
     axios.get(`${Api}/api/v1/task/volum?` +
-        `task_status=${data.task_status ? data.task_status : ''}` +
-        `&start_date=${data.start_date ? data.start_date : ''}` +
-        `&end_date=${data.end_date ? data.end_date : ''}` +
-        `&taskid=${data.taskid ? data.taskid : ''}` +
-        `&vendor_id=${data.vendor_id ? data.vendor_id : ''}` +
-        `&limit=${data.limit ? data.limit : ''}` +
-        `&sort_by=${data.sort_by ? data.sort_by : ''}` +
-        `&order_by=${data.order_by ? data.order_by : ''}`,
+    `limit=${data.limit ? data.limit : ''}` +
+    `&erdat=${data.erdat ? data.erdat : ''}` +
+    `&bldat=${data.bldat ? data.bldat : ''}` +
+    `&vbeln=${data.vbeln ? data.vbeln : ''}` +
+    `&taskid=${data.taskid ? data.taskid : ''}` +
+    `&sort_by=${data.sort_by ? data.sort_by : ''}` +
+    `&end_date=${data.end_date ? data.end_date : ''}` +
+    `&order_by=${data.order_by ? data.order_by : ''}` +
+    `&vendor_id=${data.vendor_id ? data.vendor_id : ''}` +
+    `&start_date=${data.start_date ? data.start_date : ''}` +    
+    `&task_status=${data.task_status ? data.task_status : ''}` +
+    `&jenis_kirim=${data.jenis_kirim ? data.jenis_kirim : ''}` +
+    `&pick_location=${data.pick_location ? data.pick_location : ''}` ,
     { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }).then((res) => {
         callback(true, res.data.data)
     }).catch((err) => {
