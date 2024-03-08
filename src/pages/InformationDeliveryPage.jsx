@@ -38,7 +38,7 @@ const InformationDeliveryPage = () => {
            }
        })
 
-        getTaskLog({"taskid" : id}, (status, result) => {
+        getTaskLog({"taskid" : id, "publish": "X"}, (status, result) => {
             if (status) {
                 setTaskLogs(result)
             } else {

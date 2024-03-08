@@ -82,9 +82,15 @@ const TabMenu = (props) => {
         filter.taskid = (filters.taskid)? filters.taskid[0] : ""        
         filter.sort_by = (sorter.order)? ((sorter.order === "descend")? 'desc' : 'asc') : "asc"
         filter.order_by = (sorter.column)? sorter.columnKey : ""
+        filter.vehicle_no = (filters.vehicle_no)? filters.vehicle_no[0] : "" 
+        filter.driver_name = (filters.driver_name)? filters.driver_name[0] : ""
         filter.jenis_kirim = (filters.jenis_kirim)? filters.jenis_kirim[0] : ""
-        filter.pick_location = (filters.pick_location)? filters.pick_location[0] : ""
-
+        filter.shipto_name = (filters.shipto_name)? filters.shipto_name[0] : ""        
+        filter.vehicle_type = (filters.vehicle_type)? filters.vehicle_type[0] : ""        
+        filter.receive_date = (filters.receive_date)? filters.receive_date[0] : ""
+        filter.shipto_street = (filters.shipto_street)? filters.shipto_street[0] : ""
+        filter.pick_location = (filters.pick_location)? filters.pick_location[0] : "" 
+                
         dispatch(filterAssignmentDate(filter))
         dispatch(updateTaskList({is_update:1}))
     };
@@ -148,23 +154,79 @@ const TabMenu = (props) => {
             ...getColumnSearchProps('jenis_kirim'),
             sorter: (a, b) => a.jenis_kirim - b.jenis_kirim
         },                
-        { title: 'Ship To Name', align:'center', dataIndex: 'shipto', key: 'shipto', sorter: (a, b) => a.shipto - b.shipto},
-        { title: 'Alamat Tujuan', align:'center', dataIndex: 'shipto_street', key: 'shipto_street', sorter: (a, b) => a.shipto_street - b.shipto_street},
+        { 
+            title: 'Ship To Name', 
+            align:'center', 
+            dataIndex: 'shipto_name', 
+            key: 'shipto_name', 
+            ...getColumnSearchProps('shipto_name'),
+            sorter: (a, b) => a.shipto_name - b.shipto_name
+        },
+        { 
+            title: 'Alamat Tujuan', 
+            align:'center', 
+            dataIndex: 'shipto_street', 
+            key: 'shipto_street', 
+            ...getColumnSearchProps('shipto_street'),
+            sorter: (a, b) => a.shipto_street - b.shipto_street
+        },
     ];
 
     switch (taskStatus) {
         case "PROCESS":
             columns.push(
-                { title: 'Supir', align:'center', dataIndex: 'driver_name', key: 'driver_name', sorter: (a, b) => a.driver_name - b.driver_name},
-                { title: 'Plat', align:'center', dataIndex: 'vehicle_no', key: 'vehicle_no', sorter: (a, b) => a.vehicle_no - b.vehicle_no},
-                { title: 'Tgl Notif ke Supir', align:'center', dataIndex: 'erdat', key: 'erdat', sorter: (a, b) => a.erdat - b.erdat},
+                { 
+                    title: 'Supir', 
+                    align:'center', 
+                    dataIndex: 'driver_name', 
+                    key: 'driver_name', 
+                    ...getColumnSearchProps('driver_name'),
+                    sorter: (a, b) => a.driver_name - b.driver_name
+                },
+                { 
+                    title: 'Plat', 
+                    align:'center', 
+                    dataIndex: 'vehicle_no', 
+                    key: 'vehicle_no', 
+                    ...getColumnSearchProps('vehicle_no'),
+                    sorter: (a, b) => a.vehicle_no - b.vehicle_no
+                },
+                { 
+                    title: 'Tgl Notif ke Supir', 
+                    align:'center', 
+                    dataIndex: 'erdat', 
+                    key: 'erdat', 
+                    ...getColumnSearchProps('erdat'),
+                    sorter: (a, b) => a.erdat - b.erdat
+                },
             )
             break;
         case "COMPLETE":
             columns.push(
-                { title: 'Supir', align:'center', dataIndex: 'driver_name', key: 'driver_name', sorter: (a, b) => a.driver_name - b.driver_name},
-                { title: 'Plat', align:'center', dataIndex: 'vehicle_no', key: 'vehicle_no', sorter: (a, b) => a.vehicle_no - b.vehicle_no},
-                { title: 'Tgl Selesai', align:'center', dataIndex: 'receive_date', key: 'receive_date', sorter: (a, b) => a.receive_date - b.receive_date},
+                { 
+                    title: 'Supir', 
+                    align:'center', 
+                    dataIndex: 'driver_name',
+                     key: 'driver_name', 
+                     ...getColumnSearchProps('driver_name'),
+                     sorter: (a, b) => a.driver_name - b.driver_name
+                },
+                { 
+                    title: 'Plat', 
+                    align:'center', 
+                    dataIndex: 'vehicle_no', 
+                    key: 'vehicle_no', 
+                    ...getColumnSearchProps('vehicle_no'),
+                    sorter: (a, b) => a.vehicle_no - b.vehicle_no
+                },
+                { 
+                    title: 'Tgl Selesai', 
+                    align:'center', 
+                    dataIndex: 'receive_date', 
+                    key: 'receive_date', 
+                    ...getColumnSearchProps('receive_date'),
+                    sorter: (a, b) => a.receive_date - b.receive_date
+                },
             )
             break;        
         default:            
@@ -175,12 +237,27 @@ const TabMenu = (props) => {
                         { title: 'Volume', align:'center', dataIndex: 'volum', key: 'volum', sorter: (a, b) => a.volum - b.volum},
                     ]
                 },
-                { title: 'Req Kendaraan', align:'center', dataIndex: 'vehicle_type', key: 'vehicle_type', width:180, sorter: (a, b) => a.vehicle_type - b.vehicle_type},                
+                { 
+                    title: 'Req Kendaraan', 
+                    align:'center', 
+                    dataIndex: 'vehicle_type', 
+                    key: 'vehicle_type', 
+                    width:180, 
+                    ...getColumnSearchProps('vehicle_type'),
+                    sorter: (a, b) => a.vehicle_type - b.vehicle_type
+                },                
             )
 
             if (vendorId !== '') {
                 columns.push(
-                    { title: 'Action', align:'center', dataIndex: 'action', key: 'action', fixed: 'right', width:170},
+                    { 
+                        title: 'Action', 
+                        align:'center', 
+                        dataIndex: 'action', 
+                        key: 'action', 
+                        fixed: 'right', 
+                        width:170
+                    },
                 )
             }
 
@@ -222,7 +299,7 @@ const TabMenu = (props) => {
             "jenis_kirim" : obj.jenis_kirim,
             "taskid" : <Link to={`/information-delivery/${obj.taskid}`}>{obj.taskid}</Link>,
             "vbeln" : obj.vbeln,
-            "shipto" : obj.shipto_name,
+            "shipto_name" : obj.shipto_name,
             "shipto_street" : obj.shipto_street,
             "brgew" : obj.brgew,
             "volum" : obj.volum,

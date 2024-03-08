@@ -21,9 +21,15 @@ export const getTaskVolum = (data, callback) => {
     `&end_date=${data.end_date ? data.end_date : ''}` +
     `&order_by=${data.order_by ? data.order_by : ''}` +
     `&vendor_id=${data.vendor_id ? data.vendor_id : ''}` +
-    `&start_date=${data.start_date ? data.start_date : ''}` +    
+    `&start_date=${data.start_date ? data.start_date : ''}` +   
+    `&vehicle_no=${data.vehicle_no ? data.vehicle_no : ''}` + 
+    `&driver_name=${data.driver_name ? data.driver_name : ''}` +
     `&task_status=${data.task_status ? data.task_status : ''}` +
-    `&jenis_kirim=${data.jenis_kirim ? data.jenis_kirim : ''}` +
+    `&jenis_kirim=${data.jenis_kirim ? data.jenis_kirim : ''}` +    
+    `&shipto_name=${data.shipto_name ? data.shipto_name : ''}` +
+    `&receive_date=${data.receive_date ? data.receive_date : ''}` +
+    `&vehicle_type=${data.vehicle_type ? data.vehicle_type : ''}` +
+    `&shipto_street=${data.shipto_street ? data.shipto_street : ''}` +
     `&pick_location=${data.pick_location ? data.pick_location : ''}` ,
     { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }).then((res) => {
         callback(true, res.data.data)
