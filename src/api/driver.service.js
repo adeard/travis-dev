@@ -19,6 +19,15 @@ export const getDrivers = (data, callback) => {
     })
 }
 
+export const getDriversVehicle = (data, callback) => {
+    axios.get(`${Api}/api/v1/driver/vehicle?vendor_id=${data.vendor_id}&driver_status=${data.driver_status ? data.driver_status : ''}`,
+    { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }).then((res) => {
+        callback(res.data.data.data)
+    }).catch((err) => {
+        console.log(err)
+    })
+}
+
 export const getDriverDetail = (driverId, callback) => {
     axios.get(`${Api}/api/v1/driver/${driverId}`,
     { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }).then((res) => {

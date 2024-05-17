@@ -90,6 +90,8 @@ const TabMenu = (props) => {
         filter.receive_date = (filters.receive_date)? filters.receive_date[0] : ""
         filter.shipto_street = (filters.shipto_street)? filters.shipto_street[0] : ""
         filter.pick_location = (filters.pick_location)? filters.pick_location[0] : "" 
+        filter.reject_reason = (filters.reject_reason)? filters.reject_reason[0] : ""
+        filter.notes_fr_transp = (filters.notes_fr_transp)? filters.notes_fr_transp[0] : "" 
                 
         dispatch(filterAssignmentDate(filter))
         dispatch(updateTaskList({is_update:1}))
@@ -111,6 +113,7 @@ const TabMenu = (props) => {
             dataIndex: 'taskid', 
             key: 'taskid', 
             fixed: 'left', 
+            width: 120,
             ...getColumnSearchProps('taskid'),
             sorter: (a, b) => a.taskid - b.taskid
         },
@@ -120,6 +123,7 @@ const TabMenu = (props) => {
             dataIndex: 'vbeln', 
             key: 'vbeln', 
             fixed: 'left', 
+            width: 120,
             ...getColumnSearchProps('vbeln'),
             sorter: (a, b) => a.vbeln - b.vbeln
         },
@@ -159,6 +163,7 @@ const TabMenu = (props) => {
             align:'center', 
             dataIndex: 'shipto_name', 
             key: 'shipto_name', 
+            width: 150,
             ...getColumnSearchProps('shipto_name'),
             sorter: (a, b) => a.shipto_name - b.shipto_name
         },
@@ -169,6 +174,25 @@ const TabMenu = (props) => {
             key: 'shipto_street', 
             ...getColumnSearchProps('shipto_street'),
             sorter: (a, b) => a.shipto_street - b.shipto_street
+        },
+
+        { 
+            title: 'Alasan Batal', 
+            align:'center', 
+            dataIndex: 'reject_reason', 
+            key: 'reject_reason', 
+            width: 100,
+            ...getColumnSearchProps('reject_reason'),
+            sorter: (a, b) => a.reject_reason - b.reject_reason
+        },
+        { 
+            title: 'Remark Untuk Transporter', 
+            align:'center', 
+            dataIndex: 'notes_fr_transp', 
+            key: 'notes_fr_transp', 
+            width: 200,
+            ...getColumnSearchProps('notes_fr_transp'),
+            sorter: (a, b) => a.notes_fr_transp - b.notes_fr_transp
         },
     ];
 
@@ -242,7 +266,7 @@ const TabMenu = (props) => {
                     align:'center', 
                     dataIndex: 'vehicle_type', 
                     key: 'vehicle_type', 
-                    width:180, 
+                    width:150, 
                     ...getColumnSearchProps('vehicle_type'),
                     sorter: (a, b) => a.vehicle_type - b.vehicle_type
                 },                
@@ -309,6 +333,8 @@ const TabMenu = (props) => {
             "erdat" : erdat[0],
             "task_status" : obj.task_status,
             "receive_date" : receive_date[0],
+            "reject_reason": obj.reject_reason,
+            "notes_fr_transp" : obj.notes_fr_transp
         }
 
         if (taskStatus === "PENDING") {

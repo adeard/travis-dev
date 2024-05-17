@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { Form, Button, Modal, Select, Tooltip } from 'antd';
+import { Form, Button, Modal, Select, Tooltip, Alert } from 'antd';
 import { CarTwoTone } from '@ant-design/icons';
 import InputForm from '../Elements/Input/InputForm';
-import { getDrivers, getDriverDetail } from '../../api/driver.service';
+import { getDriversVehicle, getDriverDetail } from '../../api/driver.service';
 import { getVehicles, getVehicle } from '../../api/vehicle.service';
-import { updateTask } from '../../api/task.service';
+import { updateTask, getTaskView } from '../../api/task.service';
 import { useDispatch } from 'react-redux';
 import { updateTaskList } from '../../redux/slices/dateSlice';
 
@@ -17,6 +17,8 @@ const FormAssignDriver = (props) => {
     const [vehicle, setVehicle] = useState(null);
     const [vehicles, setVehicles] = useState([]); 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [alertMessage, setAlertMessage] = useState("");
+    const [submitButton, setSubmitButton] = useState(null);
     const [isChangeVehicle, setChangeVehicle] = useState(false)
     const tooltipText = <span>ganti kendaraan ?</span>;
     const serializedData = localStorage.getItem("logged_user");
@@ -36,7 +38,7 @@ const FormAssignDriver = (props) => {
     }
 
     const showModal = () => {
-        getDrivers(request_params, (result) => {
+        getDriversVehicle(request_params, (result) => {
             setDrivers(result);
         })
 
@@ -59,6 +61,24 @@ const FormAssignDriver = (props) => {
             selectedVehicle.vehicle_type_desc = result.vehicle_type_desc
 
             setVehicle(selectedVehicle)
+
+            if (result) {
+                getTaskView({"driver_id": driverId, "task_status": "ONPROGRESS"}, (status, taskView) => {  
+                    if (taskView.length > 0) {
+                        let messageError = "Tidak bisa assign ke Supir "+ result.driver_name + " karena masih ada task : "
+                        for (let index = 0; index < taskView.length; index++) {
+                            const element = taskView[index];
+                            messageError += element.task_id + "("+element.task_status+"), "
+                        }
+                        
+                        setAlertMessage(<Alert message={messageError} type="error" />)
+                        setSubmitButton(<Button type="primary" htmlType="submit" disabled>Submit</Button>)    
+                    } else {
+                        setAlertMessage("")    
+                        setSubmitButton(<Button type="primary" htmlType="submit">Submit</Button>)    
+                    }
+                })
+            }
         })
     }
 
@@ -132,7 +152,7 @@ const FormAssignDriver = (props) => {
                     ]}>
                         <Select placeholder="Driver Name - Phone No" onChange={handleDriverChange}>
                             {drivers.length > 0 && drivers.map((driver) => (
-                                <Option key={driver.driver_id} value={driver.driver_id}>{driver.driver_name} - {driver.no_hp}</Option>
+                                <Option key={driver.driver_id} value={driver.driver_id}>{driver.driver_name} - {driver.vehicle_no}</Option>
                             ))}                    
                         </Select>
                     </Form.Item>
@@ -165,10 +185,10 @@ const FormAssignDriver = (props) => {
                                 },
                     ]}></InputForm>
 
+                    {alertMessage}
+
                     <Form.Item wrapperCol={{offset: 20, span: 15}} style={{paddingTop:30, marginBottom:1}}>
-                        <Button type="primary" htmlType="submit">
-                            Submit
-                        </Button>
+                        {submitButton}
                     </Form.Item>
                 </Form>
             </Modal>
