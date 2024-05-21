@@ -150,7 +150,7 @@ const FormAssignDriver = (props) => {
                         message: 'Please input first !',
                         },
                     ]}>
-                        <Select placeholder="Driver Name - Phone No" onChange={handleDriverChange}>
+                        <Select placeholder="Driver Name - No Pol" onChange={handleDriverChange}>
                             {drivers.length > 0 && drivers.map((driver) => (
                                 <Option key={driver.driver_id} value={driver.driver_id}>{driver.driver_name} - {driver.vehicle_no}</Option>
                             ))}                    
