@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Select, Modal, Button } from 'antd';
+import { Form, Select, Modal, Button, Alert } from 'antd';
 import InputForm from '../Elements/Input/InputForm';
 import { getVehicleType, addVehicle } from '../../api/vehicle.service';
 
 const FormAddVehicle = (props) => {
     const { Option } = Select;
     const [loadings, setLoadings] = useState(false);
-    const [vehicletypes, setVehicleTypes] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [vehicletypes, setVehicleTypes] = useState([])
+    const [alertMessage, setAlertMessage] = useState("");
+    
     const showModal = () => {
         setIsModalOpen(true);
     };
@@ -25,12 +27,18 @@ const FormAddVehicle = (props) => {
         setLoadings(true)
 
         addVehicle(values, (status, result) => {
-            setIsModalOpen(false);
+
             setLoadings(false)
 
-            props.isUpdate(true)
-
-            if (!status) console.log(result.message)
+            if (!status) {
+                setAlertMessage(<Alert message="Vehicle No Already Exist !" type="error" />)
+                console.log(result.message)
+            } else {
+                setIsModalOpen(false);
+                setAlertMessage("")
+                
+                props.isUpdate(true)
+            }
         })        
     };
     
@@ -82,6 +90,8 @@ const FormAddVehicle = (props) => {
                             ))}                    
                         </Select>
                     </Form.Item>
+
+                    {alertMessage}
 
                     <Form.Item wrapperCol={{offset: 20, span: 15}} style={{paddingTop:30, marginBottom:1}}>
                         <Button type="primary" htmlType="submit" loading={loadings}>
