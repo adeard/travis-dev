@@ -2,7 +2,7 @@
   "name": "travis",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://dev.indoagri.co.id/Travis",
+  "homepage": "https://appcore.indoagri.co.id/Travis",
   "dependencies": {
     "@reduxjs/toolkit": "^2.0.1",
     "@testing-library/jest-dom": "^5.16.5",

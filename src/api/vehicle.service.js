@@ -20,7 +20,9 @@ export const addVehicle = (data, callback) => {
 }
 
 export const getVehicles = (data, callback) => {
-    axios.get(`${Api}/api/v1/vehicle?vendor_id=${data.vendor_id}`,
+    axios.get(`${Api}/api/v1/vehicle?`+
+    `&order_by=${data.order_by ? data.order_by : 'VehicleNo'}` +
+    `&vendor_id=${data.vendor_id}`,
     { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }).then((res) => {
         callback(res.data.data.data)
     }).catch((err) => {

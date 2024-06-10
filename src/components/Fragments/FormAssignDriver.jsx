@@ -111,9 +111,10 @@ const FormAssignDriver = (props) => {
         updateTask(updateTaskData, (status) => {            
             if (!status) {
                 console.log(status)
+            } else {
+                setIsModalOpen(false);
+                dispatch(updateTaskList({is_update:1}))
             }
-            setIsModalOpen(false);
-            dispatch(updateTaskList({is_update:1}))
         })
     };
     const onFinishFailed = (errorInfo) => {

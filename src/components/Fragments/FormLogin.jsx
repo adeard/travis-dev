@@ -26,11 +26,36 @@ const FormLogin = () => {
                         localStorage.setItem('logged_user', JSON.stringify(result))                        
                         window.location.href = "/Travis"
                     } else {
-                        openNotificationWithIcon('error', "", result)
+                        getLoggedUser((status, result) => {
+                            if (status && result) {
+                                localStorage.setItem('vendor_id', result.code.split("_")[1] ?? "")
+                                localStorage.setItem('logged_user', JSON.stringify(result))                        
+                                window.location.href = "/Travis"
+                            } else {
+                                openNotificationWithIcon('error', "", result)
+                            }
+                        })
+                        // openNotificationWithIcon('error', "", result)
                     }
                 })
             } else {
-                openNotificationWithIcon('error', "", "Invalid User LDAP")
+                login(values, (status, token) => {
+                    if (status && token) {
+                        localStorage.setItem('token', token)                
+                        getLoggedUser((status, result) => {
+                            if (status && result) {
+                                localStorage.setItem('vendor_id', result.code.split("_")[1] ?? "")
+                                localStorage.setItem('logged_user', JSON.stringify(result))                        
+                                window.location.href = "/Travis"
+                            } else {
+                                openNotificationWithIcon('error', "", result)
+                            }
+                        })
+                    } else {
+                        openNotificationWithIcon('error', "", "Invalid User LDAP")
+                    }
+                })
+                // openNotificationWithIcon('error', "", "Invalid User LDAP")
             }
         })
     };
