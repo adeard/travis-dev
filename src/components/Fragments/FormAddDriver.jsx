@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Form, Modal, Button, Select } from 'antd';
+import { Form, Modal, Button, Select, Alert } from 'antd';
 import InputForm from '../Elements/Input/InputForm';
 import { addDriver } from '../../api/driver.service';
 import { getVehicles } from '../../api/vehicle.service';
@@ -8,6 +8,7 @@ const FormAddDriver = (props) => {
     const { Option } = Select;
     const [loadings, setLoadings] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [alertMessage, setAlertMessage] = useState("");
     const [vendorVehicles, setVendorVehicle] = useState([]);
     const serializedData = localStorage.getItem("logged_user");
     
@@ -29,10 +30,15 @@ const FormAddDriver = (props) => {
 
         values.vendor_id = requestParams.vendor_id
 
-        addDriver(values, () => {
-            setIsModalOpen(false);            
-            setLoadings(false)
+        addDriver(values, (status, result) => {
+            if (status) {
+                setIsModalOpen(false);   
+                setAlertMessage("")          
+            } else {
+                setAlertMessage(<Alert message={result.response.data.message} type="error" />)
+            }
 
+            setLoadings(false)
             props.isUpdate(true)
         })   
     };
@@ -115,13 +121,14 @@ const FormAddDriver = (props) => {
                         },
                     ]} />
 
-                    
+                    {alertMessage}
 
                     <Form.Item wrapperCol={{offset: 20, span: 15}} style={{paddingTop:30, marginBottom:1}}>
                         <Button type="primary" htmlType="submit" loading={loadings}>
                             Submit
                         </Button>
                     </Form.Item>
+
                 </Form>
             </Modal>
         </>

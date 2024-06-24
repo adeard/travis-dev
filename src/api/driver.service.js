@@ -4,9 +4,9 @@ import Api from ".";
 export const addDriver = (data, callback) => {
     axios.post(`${Api}/api/v1/driver`, data,
     { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }).then((res) => {
-        callback(res.data.data)    
+        callback(true, res.data.data)    
     }).catch((err) => {
-        console.log(err)
+        callback(false, err) 
     })
 }
 
