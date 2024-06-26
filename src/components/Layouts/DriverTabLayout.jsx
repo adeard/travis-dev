@@ -4,6 +4,7 @@ import MasterTab from '../Fragments/MasterTabFrag';
 import { getDrivers } from '../../api/driver.service';
 import FormUpdateDriver from '../Fragments/FormUpdateDriver';
 import UpdateDriverStatus from '../Elements/Button/UpdateDriverStatus';
+import FormChangePasswordDriver from '../Fragments/FormChangePasswordDriver';
 
 const DriverTabLayout = () => {    
     const [drivers, setDrivers] = useState([]);
@@ -64,7 +65,8 @@ const DriverTabLayout = () => {
                                 isUpdate={setIsUpdate} />}
                                                          
                             </>,
-            "action": <><FormUpdateDriver 
+            "action": <>
+                    <FormUpdateDriver 
                         driver_id={obj.driver_id} 
                         vehicle_id={obj.vehicle_id} 
                         username={obj.username} 
@@ -72,7 +74,19 @@ const DriverTabLayout = () => {
                         ktp={obj.ktp}
                         no_hp={obj.no_hp}
                         isUpdate={setIsUpdate}
-                    /> </>
+                    /> 
+                    &nbsp;
+                    <FormChangePasswordDriver 
+                        driver_id={obj.driver_id} 
+                        vehicle_id={obj.vehicle_id} 
+                        username={obj.username} 
+                        driver_name={obj.driver_name}
+                        ktp={obj.ktp}
+                        no_hp={obj.no_hp}
+                        isUpdate={setIsUpdate}
+                    /> 
+                    
+                    </>
         }
 
         return datas
